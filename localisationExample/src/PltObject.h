@@ -12,6 +12,8 @@ class pltObject
 {
 public:
 
+pltObject();
+
 pltObject(Pose position, int size, std::string style);
 
 void setPosition(Pose position);

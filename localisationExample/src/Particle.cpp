@@ -2,7 +2,7 @@
 
 #define PI 3.141
 
-Particle::Particle(World world, double weight, std::default_random_engine* generatorPtr) 
+Particle::Particle(World world, double weight, std::default_random_engine* generatorPtr) : pltObject()
 {
     _generatorPtr = generatorPtr;
 
@@ -13,7 +13,7 @@ Particle::Particle(World world, double weight, std::default_random_engine* gener
     _weight = weight;
 }
 
-Particle::Particle(World World, double mean[3], double sigma[3], double weight, std::default_random_engine* generatorPtr)
+Particle::Particle(World World, double mean[3], double sigma[3], double weight, std::default_random_engine* generatorPtr) : pltObject()
 {
     _generatorPtr = generatorPtr;
 
@@ -22,6 +22,9 @@ Particle::Particle(World World, double mean[3], double sigma[3], double weight, 
     _theta = _get_noise_sample_gaussian(mean[2],sigma[2]);
 
     _weight = weight;
+
+    Pose particlePose = {_x,_y,_theta};
+    pltObject::setPosition(particlePose);
 }
 
 
@@ -59,6 +62,9 @@ void Particle::propagateSample(double forwardMotion, double angleMotion, double 
         
     _x += displacement * std::cos(_theta);
     _y += displacement * std::sin(_theta);
+
+    Pose particlePose = {_x,_y,_theta};
+    pltObject::setPosition(particlePose);
 }
 
 double long Particle::computeLikelihood(measurementList measurement, World world, double meas_noise[2])

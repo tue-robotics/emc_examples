@@ -6,11 +6,6 @@
 
 LandMark::LandMark(Pose position) : pltObject(position,6,"s") {}
 
-void LandMark::plot()
-{
-    pltObject::plot();
-}
-
 void LandMark::printObject()
 {
     std::string type = "Landmark";

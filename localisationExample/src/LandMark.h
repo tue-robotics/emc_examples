@@ -10,7 +10,6 @@ public:
 
 LandMark(Pose position);
 
-void plot();
 void printObject();
 
 Pose getPosition();

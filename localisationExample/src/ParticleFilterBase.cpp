@@ -135,3 +135,23 @@ PoseList ParticleFilterBase::get_PositionList()
 
     return PositionList;
 }
+
+void ParticleFilterBase::plotAllParticles()
+{
+    std::vector<double> Xparticles;
+    std::vector<double> Yparticles;
+
+    for (int i = 0; i< _particles.size(); i++)
+    {
+        Xparticles.push_back(_particles[i].getPosition()[0]);
+        Yparticles.push_back(_particles[i].getPosition()[1]);
+    }
+
+    plt::scatter(Xparticles,Yparticles,10);
+
+    Pose averagePose = get_average_state();
+    std::vector<double> averageX;
+    std::vector<double> averageY;
+
+    plt::scatter(averageX,averageY,150);
+}

@@ -3,7 +3,7 @@
 #include "Robot.h"
 #include <random>
 
-class Particle
+class Particle : public pltObject
 {
     public:
     // Initialise Particle either uniformly or according to a Gaussian distribution

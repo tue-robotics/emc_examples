@@ -44,6 +44,7 @@ class ParticleFilterBase
 
     // Debugging Tools 
     void printAllParticles();
+    void plotAllParticles();
 
     std::default_random_engine _generator;
     ParticleList _particles;            // Storage of samples

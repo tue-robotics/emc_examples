@@ -4,6 +4,16 @@
 
 #include "PltObject.h"
 
+pltObject::pltObject()
+{
+    std::string key = "marker";
+    _style.insert(std::make_pair(key, ""));
+
+    _position = {0,0,0};
+
+    _size = 5;
+}
+
 pltObject::pltObject(Pose pos, int sz, std::string style) : _position(pos),_size(sz)
 {
     std::string key = "marker";
@@ -19,9 +29,10 @@ void pltObject::plot()
 {
     std::vector<double> X {_position[0]};
     std::vector<double> Y {_position[1]};
-    plt::scatter(X,Y,5.0,_style);
 
-    plt::save("./basic.png");
+    std::cout<< _position[0] <<std::endl;
+
+    plt::scatter(X,Y);//,_style);
 }
 
 void pltObject::printObject()
