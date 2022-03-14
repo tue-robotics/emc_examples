@@ -29,7 +29,7 @@ void Resampler::_multinomial(ParticleList &Particles, int N)
     Particles.clear();
 
     // Compute Cumulative Sum Vector of likelihoods
-    std::vector<double long> Q;
+    LikelihoodVector Q;
     Q.reserve(OldParticles.size());
     long double runningVar = 0;
 
@@ -71,7 +71,7 @@ void Resampler::_stratified(ParticleList &Particles, int N)
     Particles.clear();
 
     // Compute Cumulative Sum Vector of likelihoods
-    std::vector<double long> Q;
+    LikelihoodVector Q;
     Q.reserve(OldParticles.size());
     long double runningVar = 0;
 

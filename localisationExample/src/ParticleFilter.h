@@ -22,5 +22,5 @@ class ParticleFilter : public ParticleFilterBase
     private:
     Resampler _resampler;
     std::string _resamplingScheme;
-    double long _resampleThreshold;
+    Likelihood _resampleThreshold;
 };

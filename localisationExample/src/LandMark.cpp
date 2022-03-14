@@ -1,7 +1,3 @@
-#include<vector>
-#include<string>
-#include<iostream>
-
 #include "LandMark.h" 
 
 LandMark::LandMark(Pose position) : pltObject(position,6,"s") {}

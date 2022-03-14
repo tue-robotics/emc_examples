@@ -67,7 +67,7 @@ void Particle::propagateSample(double forwardMotion, double angleMotion, double 
     pltObject::setPosition(particlePose);
 }
 
-double long Particle::computeLikelihood(measurementList measurement, World world, double meas_noise[2])
+Likelihood Particle::computeLikelihood(measurementList measurement, World world, double meas_noise[2])
 {
     LandMarkList lms = world.getLandMarks();
 

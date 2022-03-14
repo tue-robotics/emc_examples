@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../include/matplotlibcpp.h"
+#include <../include/matplotlibcpp.h>
 namespace plt = matplotlibcpp;
 
 #include<vector>

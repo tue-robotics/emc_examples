@@ -29,8 +29,6 @@ int main() {
     // Initialise the world and LandMarks
     World world (lms,WorldSizeX,WorldSizeY);
     // Robot and measurement Noise Parameters
-    // element 1
-    // .. todo etc.
     auto NoiseParameters = programConfig["Robot"]["NoiseParameters"];
     std::vector<double> params = {  NoiseParameters["_std_forward"],
                                     NoiseParameters["_std_turn"],

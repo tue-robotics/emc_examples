@@ -3,7 +3,7 @@
 ParticleFilterBase::ParticleFilterBase(World world, int N)
 {
     _N = N;
-    double long weight = 1.0/double(N);  
+    Likelihood weight = 1.0/double(N);  
     for (int i = 0; i<_N; i++)
     {
         Particle particle_i(world, weight, &_generator);
@@ -15,7 +15,7 @@ ParticleFilterBase::ParticleFilterBase(World world, int N)
 ParticleFilterBase::ParticleFilterBase(World world, double mean[3], double sigma[3], int N)
 {
     _N = N;
-    double long weight = 1/_N;    
+    Likelihood weight = 1/_N;    
     for (int i = 0; i<_N; i++)
     {  
         Particle particle_i(world, mean, sigma, weight, &_generator);
@@ -47,7 +47,7 @@ LikelihoodVector ParticleFilterBase::computeLikelihoods(measurementList measurem
 
     for (int i = 0; i<_N; i++)
     {
-        double long val_i = _particles[i].computeLikelihood(measurement,world, _measurmentNoise);
+        Likelihood val_i = _particles[i].computeLikelihood(measurement,world, _measurmentNoise);
         result.push_back(val_i);
     }     
     return result;
@@ -56,7 +56,7 @@ LikelihoodVector ParticleFilterBase::computeLikelihoods(measurementList measurem
 Pose ParticleFilterBase::get_average_state()
 {
     // Calculate sum of Weights of all particles
-    double long sum_weight = 0;
+    Likelihood sum_weight = 0;
     for (int i = 0; i<_N; i++)
     {
         sum_weight += _particles[i].getWeight();
@@ -67,7 +67,7 @@ Pose ParticleFilterBase::get_average_state()
     for (int i = 0; i<_N; i++)
     {
         Pose position_i       = _particles[i].getPosition();
-        double long weightFactor   = _particles[i].getWeight()/sum_weight;
+        Likelihood weightFactor   = _particles[i].getWeight()/sum_weight;
 
         weightedPosition[0]  +=  weightFactor * position_i[0];
         weightedPosition[1]  +=  weightFactor * position_i[1];
@@ -87,10 +87,10 @@ void ParticleFilterBase::printAllParticles()
 
 double ParticleFilterBase::findMaxWeight()
 {
-    double long maxWeight = 0;
+    Likelihood maxWeight = 0;
     for (int i = 0; i<_N; i++)
     {
-        double long weighti = _particles[i].getWeight();
+        Likelihood weighti = _particles[i].getWeight();
 
         if (weighti > maxWeight)
         {
@@ -103,7 +103,7 @@ double ParticleFilterBase::findMaxWeight()
 
 void ParticleFilterBase::normaliseWeights()
 {
-    double long totalSum = 0;
+    Likelihood totalSum = 0;
 
     for (int i = 0; i<_N; i++)
     {
@@ -112,7 +112,7 @@ void ParticleFilterBase::normaliseWeights()
     
     for (int i = 0; i<_N; i++)
     {
-        double long newWeighti = _particles[i].getWeight()/totalSum;
+        Likelihood newWeighti = _particles[i].getWeight()/totalSum;
         _particles[i].setWeight(newWeighti);
     }
     

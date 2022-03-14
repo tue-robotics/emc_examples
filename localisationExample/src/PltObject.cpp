@@ -1,7 +1,3 @@
-#include<vector>
-#include<string>
-#include<iostream>
-
 #include "PltObject.h"
 
 pltObject::pltObject()

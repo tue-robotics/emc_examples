@@ -37,10 +37,10 @@ bool ParticleFilter::needsResampling()
     }
     else if (_resamplingScheme.compare("effectiveParticleThreshold") == 0)
     {
-        double long sumSquaredWeights = 0;
+        Likelihood sumSquaredWeights = 0;
         for (int i = 0; i<ParticleFilterBase::getNumberParticles(); i++)
         {
-            double long weight_i = ParticleFilterBase::_particles[i].getWeight();
+            Likelihood weight_i = ParticleFilterBase::_particles[i].getWeight();
             sumSquaredWeights += weight_i*weight_i;
         }
 

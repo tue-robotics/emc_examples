@@ -1,9 +1,13 @@
 #pragma once
+
+#include<vector>
+#include<string>
+#include<iostream>
+
 #include "Robot.h"
 #include "Particle.h"
 
 typedef std::vector<Particle> ParticleList;
-typedef std::vector<double long> LikelihoodVector;
 
 class ParticleFilterBase
 {

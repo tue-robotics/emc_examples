@@ -3,6 +3,9 @@
 #include "Robot.h"
 #include <random>
 
+typedef double long Likelihood;
+typedef std::vector<Likelihood> LikelihoodVector;
+
 class Particle : public pltObject
 {
     public:
@@ -23,7 +26,7 @@ class Particle : public pltObject
     // Propagate the sample based on the received odomotry information
     void propagateSample(double forwardMotion, double angleMotion, double proc_noise[2]);
     // Compute the likelihood of the particle based on the received measurement information
-    double long computeLikelihood(measurementList measurement, World world, double meas_noise[2]);   
+    Likelihood computeLikelihood(measurementList measurement, World world, double meas_noise[2]);   
     
     // Internal functions to compute uniform or gaussian samples
     double _get_noise_sample_unfiorm(double minval, double maxval);
@@ -37,7 +40,7 @@ class Particle : public pltObject
     double _y;
     double _theta;
 
-    double long _weight;
+    Likelihood _weight;
 
     std::default_random_engine* _generatorPtr;
 };
