@@ -3,7 +3,7 @@
 #include "Particle.h"
 
 typedef std::vector<Particle> ParticleList;
-typedef std::vector<double> LikelihoodVector;
+typedef std::vector<double long> LikelihoodVector;
 
 class ParticleFilterBase
 {

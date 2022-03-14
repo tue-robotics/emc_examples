@@ -8,7 +8,7 @@
 int main() {
     // Initialise the Simulation Enviroment
     // ------
-    Pose RobotPose = {3,3,1};        //   Robot is initialised in the center of the world.
+    Pose RobotPose = {7.5,2,0.5*3.14};        //   Robot is initialised in the center of the world.
 
     Pose lm1 = {2,2,0};
     Pose lm2 = {2,8,0};
@@ -33,8 +33,9 @@ int main() {
     // ------
     // Initialise the Particle Filter 
     // ------
-    int NParticles = 2500;
+    int NParticles = 1000;
     ParticleFilter pFilt(world,NParticles);  
+    //ParticleFilter pFilt(world,mean,sigma,NParticles);  
 
     double motion_forward_std= 0.1;
     double motion_turn_std   = 0.2;
@@ -47,12 +48,13 @@ int main() {
     {
         // Plot the state of the World at t = i
         PoseList ParticlePositions = pFilt.get_PositionList();
-        world.plotWorld(rob.getPosition(), ParticlePositions,i);
+        Pose AverageParticle = pFilt.get_average_state();
+        world.plotWorld(rob.getPosition(), ParticlePositions,AverageParticle,i);
         // The Robot Moves
         rob.move(desiredDist,desiredRot,world);
         // The Robot Performs a Measurement
         measurementList meas = rob.measure(world); 
         // The ParticleFilter incorporates the Measurement 
-        pFilt.update(desiredDist,desiredRot,meas,world);
+        pFilt.update(rob._distance_driv,rob._angle_driv,meas,world);
     }
 }

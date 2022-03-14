@@ -1,12 +1,14 @@
 #include "Particle.h"
 
+#define PI 3.141
+
 Particle::Particle(World world, double weight, std::default_random_engine* generatorPtr) 
 {
     _generatorPtr = generatorPtr;
 
     _x = _get_noise_sample_unfiorm(0,world._size_x);
     _y = _get_noise_sample_unfiorm(0,world._size_y);
-    _theta = _get_noise_sample_unfiorm(0,2*3.14);
+    _theta = _get_noise_sample_unfiorm(0,2*PI);
 
     _weight = weight;
 }
@@ -52,35 +54,42 @@ double Particle::getWeight()
 
 void Particle::propagateSample(double forwardMotion, double angleMotion, double proc_noise[2])
 {
-    _theta += _get_noise_sample_gaussian(angleMotion, proc_noise[1]);
-    
+    _theta += _get_noise_sample_gaussian(angleMotion, proc_noise[1]);    
     double displacement = _get_noise_sample_gaussian(forwardMotion, proc_noise[0]);
-    
-    _x += forwardMotion * std::cos(_theta);
-    _y += forwardMotion * std::sin(_theta);
+        
+    _x += displacement * std::cos(_theta);
+    _y += displacement * std::sin(_theta);
 }
 
-double Particle::computeLikelihood(measurementList measurement, World world, double meas_noise[2])
+double long Particle::computeLikelihood(measurementList measurement, World world, double meas_noise[2])
 {
     LandMarkList lms = world.getLandMarks();
 
-    double likelihoodSample = 1;
+    double likelihoodSample = 1.0;
 
     for (int i = 0; i<lms.size(); i++)
     {
         Pose lmPose = lms[i].getPosition();
-
         double dx = _x - lmPose[0];
         double dy = _y - lmPose[1];
 
         double distExpected = std::sqrt(dx*dx + dy*dy);
         double anglExpected = std::atan2(dy, dx);
 
-        double probMeasGivenDist = std::exp(-(distExpected - measurement[i][0]) * (distExpected - measurement[i][0]) / 
-                                    ( 2 * meas_noise[0] * meas_noise[0]));
+        if (anglExpected> PI)
+        {
+            anglExpected -= 2*PI;
+        }
+        else if (anglExpected < -PI)
+        {
+            anglExpected += 2*PI;
+        }
 
-        double probMeasGivenAngl = std::exp(-(anglExpected - measurement[i][1]) * (anglExpected - measurement[i][1]) / 
-                                    ( 2 * meas_noise[1] * meas_noise[1]));
+        double deltaDist = distExpected - measurement[i][0];
+        double deltaAngl = anglExpected - measurement[i][1];
+        
+        double probMeasGivenDist = std::exp(-(deltaDist) * (deltaDist) / ( 2 * meas_noise[0] * meas_noise[0]));
+        double probMeasGivenAngl = std::exp(-(deltaAngl * deltaAngl) / ( 2 * meas_noise[1] * meas_noise[1]));
 
         likelihoodSample *= probMeasGivenAngl * probMeasGivenDist;
     }

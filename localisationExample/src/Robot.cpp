@@ -1,4 +1,5 @@
 #include "Robot.h"
+#define PI 3.141
 
 Robot::Robot(Pose position, std::vector<double> params) : pltObject(position,50,"o")
 {
@@ -14,17 +15,22 @@ Robot::Robot(Pose position, std::vector<double> params) : pltObject(position,50,
 
 void Robot::move(double desired_dist,double desired_rot, World world)
 {
-    double distance_driv = _get_noise_sample(desired_dist, _std_forward);
-    double angle_driv    = _get_noise_sample(desired_rot, _std_turn);
+    _distance_driv = _get_noise_sample(desired_dist, _std_forward);
+    _angle_driv    = _get_noise_sample(desired_rot, _std_turn);
 
-    _theta += angle_driv;
-    _x += distance_driv * std::cos(_theta);
-    _y += distance_driv * std::sin(_theta);
+    _theta += _angle_driv;
+    _x += _distance_driv * std::cos(_theta);
+    _y += _distance_driv * std::sin(_theta);
 
-    if(_theta > 2*3.14)
+    if(_theta > PI)
     {
-        _theta = _theta - 2*3.14;
+        _theta -= 2*PI;
     }
+    else if(_theta < -PI)
+    {
+        _theta += 2*PI;
+    }
+
     // Todo cyclic world assumption
     pltObject::setPosition({_x,_y,_theta});
 }
@@ -34,7 +40,6 @@ measurementList Robot::measure(World world)
     LandMarkList lms = world.getLandMarks();
 
     measurementList measurement;
-    measurement.reserve(lms.size());
 
     for (int i = 0; i< lms.size(); i++)
     {

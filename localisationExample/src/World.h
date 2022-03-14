@@ -13,7 +13,7 @@ class World
     LandMarkList getLandMarks();
     LandMark     getLandMark(int id);
 
-    void         plotWorld(Pose robotPose, PoseList particles, int i);
+    void         plotWorld(Pose robotPose, PoseList particles, Pose AverageParticle, int i);
 
 
     int _size_x;

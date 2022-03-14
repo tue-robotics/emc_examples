@@ -14,7 +14,7 @@ void Resampler::resample(ParticleList &Particles, int N)
     }
     else if (_algorithm.compare("Stratified") == 0)
     {
-        //_stratified(Particles,N);
+        _stratified(Particles,N);
     }
     else
     {
@@ -33,23 +33,36 @@ void Resampler::_multinomial(ParticleList &Particles, int N)
         // Draw random sample
         std::uniform_real_distribution<double> distribution(1e-6,1);
         double u = distribution(*_generatorPtr);
-        // Find corresponding Particle  
-        double cumSum = 0;
-        for (int i = 0; i<OldParticles.size(); i++)
+        // Compute Cumulative Sum Vector of likelihoods
+        std::vector<double long> Q;
+        Q.reserve(OldParticles.size());
+        long double runningVar = 0;
+        for(int i = 0; i<OldParticles.size(); i++)
         {
-            cumSum += OldParticles[i].getWeight();
-            if (cumSum >= u)
-            {
-                // Add Particle to new particle list
-                Particle part_i = OldParticles[i];
-                part_i.setWeight(1/double(N));              //todo check wheter this is going as expected
-                Particles.push_back(part_i);
-                break;
-            }
+            runningVar += OldParticles[i].getWeight();
+            Q.push_back(runningVar);
         }
+        // Find corresponding Particle  
+        int m = 0;
+        while ( Q[m]<u ) 
+        {
+            m++;
+        }
+        // Add Particle to Resampled set of particles
+        Particle part_m = OldParticles[m];
+        part_m.setWeight(1/double(N));
+        Particles.push_back(part_m);
         // Keep the bookkeeping up to date
         n+=1;
     }
     return;
 }
 
+void Resampler::_stratified(ParticleList &Particles, int N)
+{
+
+
+
+
+
+}
