@@ -4,43 +4,56 @@
 #include "ParticleFilter.h"
 #include "Resampler.h"
 
+#include <../include/json.hpp>
+#include <fstream>
+
 
 int main() {
+    // Load the Configuration file
+    std::string filename = "params.json";
+    std::ifstream jsonFile(filename);
+    nlohmann::json programConfig = nlohmann::json::parse(jsonFile);
     // Initialise the Simulation Enviroment
     // ------
-    Pose RobotPose = {7.5,2,0.5*3.14};        //   Robot is initialised in the center of the world.
+    Pose RobotPose = programConfig["Robot"]["InitialPosition"];        //   Robot is initialised in the center of the world.
 
-    Pose lm1 = {2,2,0};
-    Pose lm2 = {2,8,0};
-    Pose lm3 = {9,2,0};
-    Pose lm4 = {8,9,0};
-    LandMarkList lms = {lm1,lm2,lm3,lm4};
+    LandMarkList lms;
+    for (int i = 0; i < programConfig["World"]["LandMarks"].size(); i++)
+    {
+        Pose lmi = programConfig["World"]["LandMarks"][i];
+        lms.push_back(lmi);
+    }
 
-    int WorldSizeX = 10;
-    int WorldSizeY = 10;
+    int WorldSizeX = programConfig["World"]["WorldSize"][0];
+    int WorldSizeY = programConfig["World"]["WorldSize"][1];
     // Initialise the world and LandMarks
     World world (lms,WorldSizeX,WorldSizeY);
     // Robot and measurement Noise Parameters
     // element 1
     // .. todo etc.
-    std::vector<double> params = {0.005,0.002,0.2,0.05};
+    auto NoiseParameters = programConfig["Robot"]["NoiseParameters"];
+    std::vector<double> params = {  NoiseParameters["_std_forward"],
+                                    NoiseParameters["_std_turn"],
+                                    NoiseParameters["_std_meas_dist"],
+                                    NoiseParameters["_std_meas_angl"]      };
     // Initialise the Robot in the World
-    double desiredDist = 0.25;
-    double desiredRot  = 0.02;
+    double desiredDist = programConfig["Control"]["DesiredForwardVelocity"];
+    double desiredRot  = programConfig["Control"]["DesiredAngleVelocity"];
     Robot rob(RobotPose,params);
     // Determine the length of the simulation 
     int N = 25;
     // ------
     // Initialise the Particle Filter 
     // ------
-    int NParticles = 1000;
+    int NParticles = programConfig["ParticleFilter"]["Particles"];
     ParticleFilter pFilt(world,NParticles);  
     //ParticleFilter pFilt(world,mean,sigma,NParticles);  
+    auto propagationParameters = programConfig["ParticleFilter"]["PropagationParameters"];
+    double motion_forward_std= propagationParameters["motion_forward_std"];
+    double motion_turn_std   = propagationParameters["motion_turn_std"];
+    double meas_dist_std     = propagationParameters["meas_dist_std"];
+    double meas_angl_std     = propagationParameters["meas_angl_std"];
 
-    double motion_forward_std= 0.1;
-    double motion_turn_std   = 0.2;
-    double meas_dist_std     = 0.4;
-    double meas_angl_std     = 0.3;
     pFilt.setNoiseLevel(motion_forward_std,motion_turn_std,meas_dist_std,meas_angl_std);
     // ------
     // Loop the simulation for the length of the simulation

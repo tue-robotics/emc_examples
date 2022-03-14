@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+# Build Folder
+*/build/*
+*/.vscode/*
+
+# Images
+*.png
+*.jpg
