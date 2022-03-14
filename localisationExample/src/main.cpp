@@ -55,6 +55,10 @@ int main() {
     double meas_angl_std     = propagationParameters["meas_angl_std"];
 
     pFilt.setNoiseLevel(motion_forward_std,motion_turn_std,meas_dist_std,meas_angl_std);
+
+    pFilt.configureResampler( programConfig["ParticleFilter"]["ResamplingAlgorithm"],
+                              programConfig["ParticleFilter"]["ResamplingScheme"],
+                              programConfig["ParticleFilter"]["ResamplingThreshold"]);
     // ------
     // Loop the simulation for the length of the simulation
     for (int i = 0; i < N; i ++)
