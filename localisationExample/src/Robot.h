@@ -19,7 +19,10 @@ class Robot: public pltObject
 
     double _get_noise_sample(double mu,double sigma);    
 
-
+    // Odometry Information
+    double _distance_driv;
+    double _angle_driv;
+    
     private:
     double _x;
     double _y;

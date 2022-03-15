@@ -12,10 +12,16 @@
         return _lms[id];
     }
 
-    void World::plotWorld(Pose robotPose, PoseList particles, int i = 0)
+    void World::plotWorld(Pose robotPose, PoseList particles, Pose AverageParticle, int i = 0)
     {
-        plt::figure_size(500,500);
-
+        if (i==0)
+        {
+            plt::figure_size(1000,1000);
+        }
+        else
+        {
+            plt::clf();
+        }
 
         // Plot Landmark Positions
         std::vector<double> X;
@@ -30,15 +36,9 @@
             X.push_back(posi[0]);
             Y.push_back(posi[1]);            
         }
-        plt::scatter(X,Y,50); // Todo get size and style
-
-        // Plot Robot Position
-        std::vector<double> xRobot = {robotPose[0]};
-        std::vector<double> yRobot = {robotPose[1]};        
-        plt::scatter(xRobot,yRobot,100);
+        plt::scatter(X,Y,100); // Todo get size and style
 
         // Plot Particle Positions
-
         std::vector<double> Xparticles;
         std::vector<double> Yparticles;
 
@@ -50,11 +50,19 @@
 
         plt::scatter(Xparticles,Yparticles,10);
 
+        // Plot Robot Position
+        std::vector<double> xRobot = {robotPose[0]};
+        std::vector<double> yRobot = {robotPose[1]};        
+        plt::scatter(xRobot,yRobot,100);
+
+        // Plot Average Particle Position
+        std::vector<double> xAverage = {AverageParticle[0]};
+        std::vector<double> yAverage = {AverageParticle[1]};        
+        plt::scatter(xAverage,yAverage,100);
+
         plt::xlim(0,_size_x);
         plt::ylim(0,_size_y);
-        plt::save("StateOfTheWorld@t=" + std::to_string(i) + ".png");
-        plt::show();
-        plt::close();
+        plt::pause(0.1);
         return;
     }
 

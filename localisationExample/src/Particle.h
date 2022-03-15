@@ -3,7 +3,10 @@
 #include "Robot.h"
 #include <random>
 
-class Particle
+typedef double long Likelihood;
+typedef std::vector<Likelihood> LikelihoodVector;
+
+class Particle : public pltObject
 {
     public:
     // Initialise Particle either uniformly or according to a Gaussian distribution
@@ -15,15 +18,15 @@ class Particle
     // Todo cyclic world assumption
 
     // Get current Position of Particle
-    Pose getPosition();
+    const Pose getPosition();
      // Get current Weight of Particle
-    double getWeight();
+    double getWeight () const;
     // Set Weight of Particle
     void setWeight(double weight);
     // Propagate the sample based on the received odomotry information
     void propagateSample(double forwardMotion, double angleMotion, double proc_noise[2]);
     // Compute the likelihood of the particle based on the received measurement information
-    double computeLikelihood(measurementList measurement, World world, double meas_noise[2]);   
+    Likelihood computeLikelihood(measurementList measurement, World world, double meas_noise[2]);   
     
     // Internal functions to compute uniform or gaussian samples
     double _get_noise_sample_unfiorm(double minval, double maxval);
@@ -37,7 +40,7 @@ class Particle
     double _y;
     double _theta;
 
-    double _weight;
+    Likelihood _weight;
 
     std::default_random_engine* _generatorPtr;
 };

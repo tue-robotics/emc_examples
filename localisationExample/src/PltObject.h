@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../include/matplotlibcpp.h"
+#include <../include/matplotlibcpp.h>
 namespace plt = matplotlibcpp;
 
 #include<vector>
@@ -11,6 +11,8 @@ typedef std::vector<double> Pose;
 class pltObject
 {
 public:
+
+pltObject();
 
 pltObject(Pose position, int size, std::string style);
 

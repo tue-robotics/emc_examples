@@ -3,7 +3,7 @@
 ParticleFilterBase::ParticleFilterBase(World world, int N)
 {
     _N = N;
-    double weight = 1.0/double(N);  
+    Likelihood weight = 1.0/double(N);  
     for (int i = 0; i<_N; i++)
     {
         Particle particle_i(world, weight, &_generator);
@@ -15,7 +15,7 @@ ParticleFilterBase::ParticleFilterBase(World world, int N)
 ParticleFilterBase::ParticleFilterBase(World world, double mean[3], double sigma[3], int N)
 {
     _N = N;
-    double weight = 1/_N;    
+    Likelihood weight = 1/_N;    
     for (int i = 0; i<_N; i++)
     {  
         Particle particle_i(world, mean, sigma, weight, &_generator);
@@ -42,12 +42,12 @@ void ParticleFilterBase::propagateSamples(double forwardMotion, double angleMoti
 
 LikelihoodVector ParticleFilterBase::computeLikelihoods(measurementList measurement, World world)
 {
-    std::vector<double> result;
+    LikelihoodVector result;
     result.reserve(_N);
 
     for (int i = 0; i<_N; i++)
     {
-        double val_i = _particles[i].computeLikelihood(measurement,world, _measurmentNoise);
+        Likelihood val_i = _particles[i].computeLikelihood(measurement,world, _measurmentNoise);
         result.push_back(val_i);
     }     
     return result;
@@ -55,19 +55,13 @@ LikelihoodVector ParticleFilterBase::computeLikelihoods(measurementList measurem
 
 Pose ParticleFilterBase::get_average_state()
 {
-    // Calculate sum of Weights of all particles
-    double sum_weight = 0;
-    for (int i = 0; i<_N; i++)
-    {
-        sum_weight += _particles[i].getWeight();
-    }
-
+    normaliseWeights();
     // Calculate Weighted Average over samples
     Pose weightedPosition = {0,0,0};
     for (int i = 0; i<_N; i++)
     {
-        Pose position_i       = _particles[i].getPosition();
-        double weightFactor   = _particles[i].getWeight()/sum_weight;
+        Pose position_i           = _particles[i].getPosition();
+        Likelihood weightFactor   = _particles[i].getWeight();
 
         weightedPosition[0]  +=  weightFactor * position_i[0];
         weightedPosition[1]  +=  weightFactor * position_i[1];
@@ -86,37 +80,29 @@ void ParticleFilterBase::printAllParticles()
 }
 
 double ParticleFilterBase::findMaxWeight()
-{
-    double maxWeight = 0;
-    for (int i = 0; i<_N; i++)
-    {
-        double weighti = _particles[i].getWeight();
-
-        if (weighti > maxWeight)
-        {
-            maxWeight = weighti;
-        }
-    }
-
-    return maxWeight;
+{   
+    // Lambda that compares the Weight value of Two particles
+    auto compareAttribute = []( Particle &particle1, const Particle &particle2){return particle1.getWeight() < particle2.getWeight();};
+    // Find the an iterator of the particle with the highest weight
+    auto it = std::max_element(_particles.begin(),_particles.end(),compareAttribute);
+    // Return the value of the weight of the found iterator
+    return it->getWeight(); 
 }
 
 void ParticleFilterBase::normaliseWeights()
 {
-    double totalSum = 0;
-
-    for (int i = 0; i<_N; i++)
-    {
-        totalSum += _particles[i].getWeight();
-    }
-    
-    for (int i = 0; i<_N; i++)
-    {
-        double newWeighti = _particles[i].getWeight()/totalSum;
-        _particles[i].setWeight(newWeighti);
-    }
-    
-    return;
+    // Lambda that returns the cumulative weight given a particle p
+    auto accumulateWeight = [](Likelihood i, const Particle& p){return i + p.getWeight();};
+    // Compute the cumulative weight of all the particles 
+    Likelihood totalSum = std::accumulate(begin(_particles), 
+                                          end(_particles),
+                                          Likelihood(0.0),
+                                          accumulateWeight);
+    // lambda that divides the particle p by the totalSum variable
+    auto divideWeight = [totalSum](Particle &p){p.setWeight(p.getWeight()/totalSum);};
+    // Divide all particles by the totalSum, which thus results in a cumSum of 1.
+    std::for_each(_particles.begin(),_particles.end(),divideWeight);    
+    return; 
 }
 
 int ParticleFilterBase::getNumberParticles()

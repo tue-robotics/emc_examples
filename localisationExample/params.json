@@ -1,0 +1,61 @@
+{
+    "World": {
+      "LandMarks": [
+        [
+          2,
+          2,
+          0
+        ],
+        [
+          2,
+          8,
+          0
+        ],
+        [
+          9,
+          2,
+          0
+        ],
+        [
+          8,
+          9,
+          0
+        ]
+      ],
+      "WorldSize": [
+        10,
+        10
+      ]
+    },
+    "Robot": {
+      "InitialPosition": [
+        7.5,
+        1,
+        1.57
+      ],
+      "NoiseParameters":
+      {
+        "_std_forward": 0.005,
+        "_std_turn": 0.002,
+        "_std_meas_dist": 0.2,
+        "_std_meas_angl": 0.05
+      }
+    },
+    "Control": {
+      "DesiredForwardVelocity": 0.25,
+      "DesiredAngleVelocity": 0.02
+    },
+    "ParticleFilter": {
+      "Particles": 1000,
+      "PropagationParameters": {
+        "motion_forward_std": 0.1,
+        "motion_turn_std": 0.2,
+        "meas_dist_std": 0.4,
+        "meas_angl_std": 0.3
+      },
+      "ParticleFilterFlavor": "Conventional",    
+      "ResamplingScheme": "Always",
+      "ResamplingThreshold" : 250,
+      "ResamplingAlgorithm": "Multinomial"
+    }
+  }
