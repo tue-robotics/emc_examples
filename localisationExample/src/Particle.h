@@ -1,9 +1,11 @@
 #pragma once
 
 #include "Robot.h"
+
+#include <math.h>
 #include <random>
 
-typedef double long Likelihood;
+typedef double Likelihood;
 typedef std::vector<Likelihood> LikelihoodVector;
 
 class Particle : public pltObject
@@ -18,11 +20,11 @@ class Particle : public pltObject
     // Todo cyclic world assumption
 
     // Get current Position of Particle
-    const Pose getPosition();
+    Pose getPosition() const;
      // Get current Weight of Particle
-    double getWeight () const;
+    Likelihood getWeight () const;
     // Set Weight of Particle
-    void setWeight(double weight);
+    void setWeight(Likelihood weight);
     // Propagate the sample based on the received odomotry information
     void propagateSample(double forwardMotion, double angleMotion, double proc_noise[2]);
     // Compute the likelihood of the particle based on the received measurement information

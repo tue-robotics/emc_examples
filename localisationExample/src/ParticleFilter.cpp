@@ -6,7 +6,7 @@ void ParticleFilter::update(double forwardMotion, double angleMotion, measuremen
     ParticleFilterBase::propagateSamples(forwardMotion,angleMotion);
     // Update Likelihoods and weights of the Particles based on the observed measurements
     LikelihoodVector likelihoods = ParticleFilterBase::computeLikelihoods(measurement,world);
-    
+
     for (int i = 0; i<ParticleFilterBase::getNumberParticles(); i++)
     {
         ParticleFilterBase::_particles[i].setWeight(likelihoods[i]);

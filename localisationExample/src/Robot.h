@@ -1,6 +1,6 @@
 #pragma once
 
-#include<vector>
+#include <vector>
 #include <math.h> 
 #include <random>
 
@@ -13,9 +13,11 @@ typedef std::vector<msrmnt> measurementList;
 class Robot: public pltObject
 {
     public:
-                        Robot(Pose position, std::vector<double> params);
-    measurementList     measure(World world);    
-    void                move(double desired_dist,double desired_rot, World world);
+    Robot(Pose position, std::vector<double> params);
+    
+    measurementList measure(World world);    
+
+    void move(double desired_dist,double desired_rot, World world);
 
     double _get_noise_sample(double mu,double sigma);    
 

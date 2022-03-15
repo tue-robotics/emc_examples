@@ -17,14 +17,14 @@ int main() {
     // Initialise the Simulation Enviroment
     // ------
     Pose RobotPose = programConfig["Robot"]["InitialPosition"];        //   Robot is initialised in the center of the world.
-
+    // Initialise the Landmark Positions
     LandMarkList lms;
     for (int i = 0; i < programConfig["World"]["LandMarks"].size(); i++)
     {
         Pose lmi = programConfig["World"]["LandMarks"][i];
         lms.push_back(lmi);
     }
-
+    // Initialise the world size
     int WorldSizeX = programConfig["World"]["WorldSize"][0];
     int WorldSizeY = programConfig["World"]["WorldSize"][1];
     // Initialise the world and LandMarks
@@ -61,22 +61,19 @@ int main() {
     // ------
     // Loop the simulation for the length of the simulation
     for (int i = 0; i < N; i ++)
-    {        
+    {
         // Plot the state of the World at t = i
         PoseList ParticlePositions = pFilt.get_PositionList();
         Pose AverageParticle = pFilt.get_average_state();
-        world.plotWorld(rob.getPosition(), ParticlePositions,AverageParticle,i);
-
+        world.plotWorld(rob.getPosition(), ParticlePositions, AverageParticle,i);
         // Start Clock of this iteration (we dont include time taken by viz)
         auto start = std::chrono::steady_clock::now();
-
         // The Robot Moves
         rob.move(desiredDist,desiredRot,world);
         // The Robot Performs a Measurement
         measurementList meas = rob.measure(world); 
         // The ParticleFilter incorporates the Measurement 
-        pFilt.update(rob._distance_driv,rob._angle_driv,meas,world);
-
+        pFilt.update(rob._distance_driv, rob._angle_driv, meas, world);
         // Stop Clock of this iteration (we dont include time taken by viz)
         auto end = std::chrono::steady_clock::now();
 

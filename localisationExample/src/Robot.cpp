@@ -1,5 +1,4 @@
 #include "Robot.h"
-#define PI 3.141
 
 Robot::Robot(Pose position, std::vector<double> params) : pltObject(position,50,"o")
 {
@@ -22,13 +21,13 @@ void Robot::move(double desired_dist,double desired_rot, World world)
     _x += _distance_driv * std::cos(_theta);
     _y += _distance_driv * std::sin(_theta);
 
-    if(_theta > PI)
+    if(_theta > M_PI)
     {
-        _theta -= 2*PI;
+        _theta -= 2* M_PI;
     }
-    else if(_theta < -PI)
+    else if(_theta < - M_PI)
     {
-        _theta += 2*PI;
+        _theta += 2* M_PI;
     }
 
     // Todo cyclic world assumption

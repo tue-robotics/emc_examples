@@ -7,16 +7,13 @@
 
 class LandMark: public pltObject
 {
+    public:
 
-public:
+    LandMark(Pose position);
 
-LandMark(Pose position);
+    void printObject();
 
-void printObject();
-
-Pose getPosition();
-
-
+    Pose getPosition();
 };
 
 typedef std::vector<LandMark> LandMarkList;

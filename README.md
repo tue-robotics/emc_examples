@@ -5,5 +5,5 @@ The Localisation example (currently) uses matplotlibcpp and requires python3 and
 To install the preqrequisites:
 
 ```bash
-sudo apt-get install python3-matplotlib python3-numpy python2.7-dev
+sudo apt-get install python3-matplotlib python3-numpy
 ```

@@ -61,7 +61,7 @@ void Resampler::_multinomial(ParticleList &Particles, int N)
         int  m  = it-Q.begin();                                 // Retrieve Particle Index from iterator
         // Add Particle to Resampled set of particles
         Particle part_m = OldParticles[m];
-        part_m.setWeight(1/double(N));
+        part_m.setWeight(1.0/N);
         Particles.push_back(part_m);
         // Keep the bookkeeping up to date
         n+=1;
@@ -74,7 +74,6 @@ void Resampler::_stratified(ParticleList &Particles, int N)
     // Counters
     int n = 0;
     int m = 0;
-    int m2= 0;
 
     // Clear current Particles, save old particles
     ParticleList OldParticles = Particles;    
@@ -97,7 +96,7 @@ void Resampler::_stratified(ParticleList &Particles, int N)
         m  = it-Q.begin();                                     // Retrieve Particle Index from iterator
         // Append Particle to Set of new particles
         Particle particleM = OldParticles[m];
-        particleM.setWeight(1.0/(double(N)));
+        particleM.setWeight(1.0/N);
         Particles.push_back(particleM);
         // Keep Bookkeeping up to date
         n++;

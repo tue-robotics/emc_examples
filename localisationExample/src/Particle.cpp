@@ -1,14 +1,12 @@
 #include "Particle.h"
 
-#define PI 3.141
-
 Particle::Particle(World world, double weight, std::default_random_engine* generatorPtr) : pltObject()
 {
     _generatorPtr = generatorPtr;
 
     _x = _get_noise_sample_unfiorm(0,world._size_x);
     _y = _get_noise_sample_unfiorm(0,world._size_y);
-    _theta = _get_noise_sample_unfiorm(0,2*PI);
+    _theta = _get_noise_sample_unfiorm(0,2*M_PI);
 
     _weight = weight;
 }
@@ -40,17 +38,17 @@ double Particle::_get_noise_sample_unfiorm(double minval, double maxval)
     return distribution(*_generatorPtr);
 }
 
-const Pose Particle::getPosition()
+Pose Particle::getPosition() const
 {
     return {_x,_y,_theta};
 }
 
-void Particle::setWeight(double weight)
+void Particle::setWeight(Likelihood weight)
 {
     _weight = weight;
 }
 
-double Particle::getWeight() const
+Likelihood Particle::getWeight() const
 {
     return _weight;
 }
@@ -82,13 +80,13 @@ Likelihood Particle::computeLikelihood(measurementList measurement, World world,
         double distExpected = std::sqrt(dx*dx + dy*dy);
         double anglExpected = std::atan2(dy, dx);
 
-        if (anglExpected> PI)
+        if (anglExpected> M_PI)
         {
-            anglExpected -= 2*PI;
+            anglExpected -= 2*M_PI;
         }
-        else if (anglExpected < -PI)
+        else if (anglExpected < -M_PI)
         {
-            anglExpected += 2*PI;
+            anglExpected += 2*M_PI;
         }
 
         double deltaDist = distExpected - measurement[i][0];
@@ -108,4 +106,3 @@ void Particle::print(int i)
     std::cout << "-- Particle "<< i <<" -- " << std::endl;
     std::cout << " X: "<< _x << " Y: "<< _y << " Th: "<< _theta<< " Weight: "<< _weight << std::endl;
 }
-

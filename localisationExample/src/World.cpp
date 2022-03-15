@@ -16,7 +16,7 @@
     {
         if (i==0)
         {
-            plt::figure_size(1000,1000);
+            plt::figure_size(1000, 1000);
         }
         else
         {
@@ -48,21 +48,20 @@
             Yparticles.push_back(particles[i][1]);
         }
 
-        plt::scatter(Xparticles,Yparticles,10);
+        plt::scatter(Xparticles, Yparticles,10);
 
         // Plot Robot Position
         std::vector<double> xRobot = {robotPose[0]};
         std::vector<double> yRobot = {robotPose[1]};        
-        plt::scatter(xRobot,yRobot,100);
+        plt::scatter(xRobot, yRobot,100);
 
         // Plot Average Particle Position
         std::vector<double> xAverage = {AverageParticle[0]};
         std::vector<double> yAverage = {AverageParticle[1]};        
-        plt::scatter(xAverage,yAverage,100);
+        plt::scatter(xAverage, yAverage,100);
 
-        plt::xlim(0,_size_x);
-        plt::ylim(0,_size_y);
+        plt::xlim(0, _size_x);
+        plt::ylim(0, _size_y);
         plt::pause(0.1);
         return;
     }
-
