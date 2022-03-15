@@ -14,8 +14,14 @@
 
     void World::plotWorld(Pose robotPose, PoseList particles, Pose AverageParticle, int i = 0)
     {
-        plt::figure_size(1000,1000);
-
+        if (i==0)
+        {
+            plt::figure_size(1000,1000);
+        }
+        else
+        {
+            plt::clf();
+        }
 
         // Plot Landmark Positions
         std::vector<double> X;
@@ -54,12 +60,9 @@
         std::vector<double> yAverage = {AverageParticle[1]};        
         plt::scatter(xAverage,yAverage,100);
 
-        
-
         plt::xlim(0,_size_x);
         plt::ylim(0,_size_y);
-        plt::save("StateOfTheWorld@t=" + std::to_string(i) + ".png");
-         plt::close();
+        plt::pause(0.1);
         return;
     }
 
