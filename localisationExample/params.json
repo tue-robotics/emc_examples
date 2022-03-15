@@ -56,6 +56,6 @@
       "ParticleFilterFlavor": "Conventional",    
       "ResamplingScheme": "Always",
       "ResamplingThreshold" : 250,
-      "ResamplingAlgorithm": "Stratified"
+      "ResamplingAlgorithm": "Multinomial"
     }
   }

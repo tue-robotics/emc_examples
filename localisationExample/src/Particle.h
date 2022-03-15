@@ -18,9 +18,9 @@ class Particle : public pltObject
     // Todo cyclic world assumption
 
     // Get current Position of Particle
-    Pose getPosition();
+    const Pose getPosition();
      // Get current Weight of Particle
-    double getWeight();
+    double getWeight () const;
     // Set Weight of Particle
     void setWeight(double weight);
     // Propagate the sample based on the received odomotry information

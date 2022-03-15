@@ -40,7 +40,7 @@ double Particle::_get_noise_sample_unfiorm(double minval, double maxval)
     return distribution(*_generatorPtr);
 }
 
-Pose Particle::getPosition()
+const Pose Particle::getPosition()
 {
     return {_x,_y,_theta};
 }
@@ -50,7 +50,7 @@ void Particle::setWeight(double weight)
     _weight = weight;
 }
 
-double Particle::getWeight()
+double Particle::getWeight() const
 {
     return _weight;
 }

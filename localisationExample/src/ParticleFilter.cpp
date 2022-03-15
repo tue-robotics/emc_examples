@@ -37,12 +37,12 @@ bool ParticleFilter::needsResampling()
     }
     else if (_resamplingScheme.compare("effectiveParticleThreshold") == 0)
     {
-        Likelihood sumSquaredWeights = 0;
-        for (int i = 0; i<ParticleFilterBase::getNumberParticles(); i++)
-        {
-            Likelihood weight_i = ParticleFilterBase::_particles[i].getWeight();
-            sumSquaredWeights += weight_i*weight_i;
-        }
+        auto accumulateSquaredWeight = [](Likelihood i, const Particle& o){return i + o.getWeight()*o.getWeight();};
+        
+        Likelihood sumSquaredWeights = std::accumulate(begin(_particles), 
+                                                       end(_particles), 
+                                                       Likelihood(0.0), 
+                                                       accumulateSquaredWeight);
 
         return (1/sumSquaredWeights) < _resampleThreshold;
     }    
