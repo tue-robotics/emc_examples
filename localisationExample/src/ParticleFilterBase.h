@@ -13,6 +13,8 @@ typedef std::vector<Particle> ParticleList;
 class ParticleFilterBase
 {
     public:
+    // Create empty object
+    ParticleFilterBase(){}
     // Initialize Uniformly 
     ParticleFilterBase(World World, int N); 
 
@@ -42,7 +44,10 @@ class ParticleFilterBase
     void normaliseWeights();
 
     // Virtual update function, needs to be implemented by specific flavor of Particle filter
-    virtual void update() {}
+    virtual void update(double forwardMotion, double angleMotion, measurementList measurement, World world) {}
+    
+    // Virtual function to initialise the resampler when necessary
+    virtual void configureResampler(std::string algorithm, std::string resamplingScheme, double long resampleThreshold){}
 
     // Get number of Particles
     int getNumberParticles();

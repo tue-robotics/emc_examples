@@ -1,6 +1,6 @@
 #include "ParticleFilter.h"
 
-void ParticleFilter::update(double forwardMotion, double angleMotion, measurementList measurement, World world)
+void ParticleFilter::update(double forwardMotion, double angleMotion, measurementList measurement, World world) 
 {
     // Propagate ParticleFilter Samples based on observed odometry information
     ParticleFilterBase::propagateSamples(forwardMotion,angleMotion);
