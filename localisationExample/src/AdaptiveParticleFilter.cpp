@@ -1,6 +1,6 @@
 #include "AdaptiveParticleFilter.h"
 
-void AdaptiveParticleFilter::update(double forwardMotion, double angleMotion, measurementList measurement, World world) 
+void AdaptiveParticleFilter::update(const double &forwardMotion, const double &angleMotion, const measurementList &measurement, const World &world) 
 {
     ParticleList oldParticles = _particles;
     _particles.clear();

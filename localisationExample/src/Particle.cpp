@@ -1,6 +1,6 @@
 #include "Particle.h"
 
-Particle::Particle(World world, double weight, std::default_random_engine* generatorPtr) : pltObject()
+Particle::Particle(const World &world, const double &weight, std::default_random_engine* generatorPtr) : pltObject()
 {
     _generatorPtr = generatorPtr;
 
@@ -11,7 +11,7 @@ Particle::Particle(World world, double weight, std::default_random_engine* gener
     _weight = weight;
 }
 
-Particle::Particle(World World, double mean[3], double sigma[3], double weight, std::default_random_engine* generatorPtr) : pltObject()
+Particle::Particle(const World &World, const double mean[3], const double sigma[3], const double &weight, std::default_random_engine* generatorPtr) : pltObject()
 {
     _generatorPtr = generatorPtr;
 
@@ -26,13 +26,13 @@ Particle::Particle(World World, double mean[3], double sigma[3], double weight, 
 }
 
 
-double Particle::_get_noise_sample_gaussian(double mu,double sigma)
+double Particle::_get_noise_sample_gaussian(double mu,double sigma) const
 {
     std::normal_distribution<double> distribution(mu,sigma);
     return distribution(*_generatorPtr);
 }
 
-double Particle::_get_noise_sample_unfiorm(double minval, double maxval)
+double Particle::_get_noise_sample_unfiorm(double minval, double maxval) const
 {
     std::uniform_real_distribution<double> distribution(minval,maxval);
     return distribution(*_generatorPtr);
@@ -43,7 +43,7 @@ Pose Particle::getPosition() const
     return {_x,_y,_theta};
 }
 
-void Particle::setWeight(Likelihood weight)
+void Particle::setWeight(const Likelihood &weight)
 {
     _weight = weight;
 }
@@ -53,7 +53,7 @@ Likelihood Particle::getWeight() const
     return _weight;
 }
 
-void Particle::propagateSample(double forwardMotion, double angleMotion, double proc_noise[2])
+void Particle::propagateSample(const double &forwardMotion, const double &angleMotion, const double proc_noise[2])
 {
     _theta += _get_noise_sample_gaussian(angleMotion, proc_noise[1]);    
     double displacement = _get_noise_sample_gaussian(forwardMotion, proc_noise[0]);
@@ -65,7 +65,7 @@ void Particle::propagateSample(double forwardMotion, double angleMotion, double 
     pltObject::setPosition(particlePose);
 }
 
-Likelihood Particle::computeLikelihood(measurementList measurement, World world, double meas_noise[2])
+Likelihood Particle::computeLikelihood(const measurementList &measurement, const World &world, const double meas_noise[2])
 {
     LandMarkList lms = world.getLandMarks();
 
@@ -101,7 +101,7 @@ Likelihood Particle::computeLikelihood(measurementList measurement, World world,
     return likelihoodSample;
 }
 
-void Particle::print(int i)
+void Particle::print(const int &i) const
 {
     std::cout << "-- Particle "<< i <<" -- " << std::endl;
     std::cout << " X: "<< _x << " Y: "<< _y << " Th: "<< _theta<< " Weight: "<< _weight << std::endl;

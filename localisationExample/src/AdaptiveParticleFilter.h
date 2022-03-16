@@ -15,22 +15,20 @@ class AdaptiveParticleFilter : public ParticleFilterBase
 {
     public:
 
-    AdaptiveParticleFilter(World World, int N): ParticleFilterBase(World, N), _N_max(N) {}
+    AdaptiveParticleFilter(World &World, int &N): ParticleFilterBase(World, N), _N_max(N) {}
 
-    AdaptiveParticleFilter(World world, double mean[3], double sigma[3], int N): ParticleFilterBase(world, mean, sigma , N), _N_max(N) {}
+    AdaptiveParticleFilter(World &world, double mean[3], double sigma[3], int &N): ParticleFilterBase(world, mean, sigma , N), _N_max(N) {}
 
     void configureAdaptive(std::string resamplingScheme, Likelihood resampleThreshold);
     
     bool needsResampling() {return true;};
 
-    void update(double forwardMotion, double angleMotion, measurementList measurement, World world) override;
-
-    void printAllParticles() {ParticleFilterBase::printAllParticles();}
+    void update(const double &forwardMotion, const double &angleMotion, const measurementList &measurement, const World &world) override;
 
     private:
 
     bool idxInBins(Bin &Indices, BinList &binsWithSupport);
-    double  computeRequiredParticles(int Nbins, double _epsilon, double _upperQ);
+    double computeRequiredParticles(int Nbins, double _epsilon, double _upperQ);
 
     Resampler _resampler;
     std::string _resamplingScheme;

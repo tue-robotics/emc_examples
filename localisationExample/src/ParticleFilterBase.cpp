@@ -1,6 +1,6 @@
 #include "ParticleFilterBase.h"
 
-ParticleFilterBase::ParticleFilterBase(World world, int N)
+ParticleFilterBase::ParticleFilterBase(const World &world, const int &N)
 {
     _N = N;
     Likelihood weight = 1.0/double(N);  
@@ -12,7 +12,7 @@ ParticleFilterBase::ParticleFilterBase(World world, int N)
 }
 
 
-ParticleFilterBase::ParticleFilterBase(World world, double mean[3], double sigma[3], int N)
+ParticleFilterBase::ParticleFilterBase(const World &world, double mean[3], double sigma[3], const int &N)
 {
     _N = N;
     Likelihood weight = 1/_N;    
@@ -40,7 +40,7 @@ void ParticleFilterBase::propagateSamples(double forwardMotion, double angleMoti
     }
 }
 
-LikelihoodVector ParticleFilterBase::computeLikelihoods(measurementList measurement, World world)
+LikelihoodVector ParticleFilterBase::computeLikelihoods(const measurementList &measurement, const World &world)
 {
     LikelihoodVector result;
     result.reserve(_N);
@@ -71,7 +71,7 @@ Pose ParticleFilterBase::get_average_state()
     return weightedPosition;
 }
 
-void ParticleFilterBase::printAllParticles()
+void ParticleFilterBase::printAllParticles() const
 {
     for (int i  = 0 ; i<_N; i++)
     {

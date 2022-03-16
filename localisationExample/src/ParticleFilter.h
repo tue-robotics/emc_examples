@@ -7,17 +7,15 @@ class ParticleFilter : public ParticleFilterBase
 {
     public:
 
-    ParticleFilter(World World, int N): ParticleFilterBase(World, N) {}
+    ParticleFilter(World &World, int &N): ParticleFilterBase(World, N) {}
 
-    ParticleFilter(World world, double mean[3], double sigma[3], int N): ParticleFilterBase(world, mean, sigma , N) {}
+    ParticleFilter(World &world, double mean[3], double sigma[3], int &N): ParticleFilterBase(world, mean, sigma , N) {}
 
     void configureResampler(std::string algorithm, std::string resamplingScheme, double long resampleThreshold);
     
-    bool needsResampling();
+    bool needsResampling() const;
 
-    void update(double forwardMotion, double angleMotion, measurementList measurement, World world) override;
-
-    void printAllParticles() {ParticleFilterBase::printAllParticles();}
+    void update(const double &forwardMotion, const double &angleMotion, const measurementList &measurement, const World &world) override;
 
     private:
     Resampler _resampler;

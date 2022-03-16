@@ -2,12 +2,12 @@
 
     World::World(LandMarkList lms ,int sz_x,int sz_y): _lms(lms), _size_x(sz_x), _size_y(sz_y) {};
 
-    LandMarkList World::getLandMarks()
+    LandMarkList World::getLandMarks() const
     {
         return _lms;
     }
 
-    LandMark World::getLandMark(int id)
+    LandMark World::getLandMark(int id) const
     {
         return _lms[id];
     }
@@ -16,7 +16,7 @@
     {
         if (i==0)
         {
-            plt::figure_size(1000, 1000);
+            plt::figure_size(500, 500);
         }
         else
         {
@@ -36,7 +36,7 @@
             X.push_back(posi[0]);
             Y.push_back(posi[1]);            
         }
-        plt::scatter(X,Y,100); // Todo get size and style
+        plt::scatter(X,Y,100);
 
         // Plot Particle Positions
         std::vector<double> Xparticles;
@@ -48,7 +48,7 @@
             Yparticles.push_back(particles[i][1]);
         }
 
-        plt::scatter(Xparticles, Yparticles,10);
+        plt::scatter(Xparticles, Yparticles,5);
 
         // Plot Robot Position
         std::vector<double> xRobot = {robotPose[0]};

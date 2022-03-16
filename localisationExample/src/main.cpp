@@ -17,7 +17,7 @@ int main() {
     nlohmann::json programConfig = nlohmann::json::parse(jsonFile);
     // Initialise the Simulation Enviroment
     // ------
-    Pose RobotPose = programConfig["Robot"]["InitialPosition"];        //   Robot is initialised in the center of the world.
+    Pose RobotPose = programConfig["Robot"]["InitialPosition"];        
     // Initialise the Landmark Positions
     LandMarkList lms;
     for (int i = 0; i < programConfig["World"]["LandMarks"].size(); i++)
@@ -51,7 +51,7 @@ int main() {
     bool ConventionalPF  = PFFlavor.compare("Conventional") == 0;
     // Choose the particleFilter Algorithm to be used 
     ParticleFilterBase* pFilt;
-    if (ConventionalPF)     // Conventional PF
+    if (ConventionalPF) // Conventional PF
     {
         pFilt = new ParticleFilter(world,NParticles);
         //pFilt = new ParticleFilter(world,mean,sigma,NParticles);  
@@ -59,7 +59,7 @@ int main() {
                                    programConfig["ParticleFilter"]["ResamplingScheme"],
                                    programConfig["ParticleFilter"]["ResamplingThreshold"]);
     }
-    else                   // Adaptive PF
+    else // Adaptive PF
     {
         pFilt = new AdaptiveParticleFilter(world,NParticles);        
         pFilt -> configureAdaptive(programConfig["ParticleFilter"]["ResamplingScheme"],

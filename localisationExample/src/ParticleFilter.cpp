@@ -1,6 +1,6 @@
 #include "ParticleFilter.h"
 
-void ParticleFilter::update(double forwardMotion, double angleMotion, measurementList measurement, World world) 
+void ParticleFilter::update(const double &forwardMotion, const double &angleMotion, const measurementList &measurement, const World &world) 
 {
     // Propagate ParticleFilter Samples based on observed odometry information
     ParticleFilterBase::propagateSamples(forwardMotion,angleMotion);
@@ -29,7 +29,7 @@ void ParticleFilter::configureResampler(std::string algorithm, std::string resam
     _resampleThreshold = resampleThreshold;
 }
 
-bool ParticleFilter::needsResampling() 
+bool ParticleFilter::needsResampling() const
 {
     if (_resamplingScheme.compare("Always") == 0)
     {
