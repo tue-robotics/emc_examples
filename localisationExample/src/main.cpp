@@ -45,17 +45,29 @@ int main() {
     // Initialise the Particle Filter 
     // ------
     int NParticles = programConfig["ParticleFilter"]["Particles"];
-    ParticleFilter pFilt(world,NParticles);  
-    //ParticleFilter pFilt(world,mean,sigma,NParticles);  
+    // Extract the chosen particleFilter algorithm from the JSON-file
+    std::string PFFlavor = programConfig["ParticleFilter"]["ParticleFilterFlavor"];
+    bool ConventionalPF  = PFFlavor.compare("Conventional") == 0;
+    // Choose the particleFilter Algorithm to be used 
+    ParticleFilterBase* pFilt;
+    if (ConventionalPF)     // Conventional PF
+    {
+        pFilt = new ParticleFilter(world,NParticles);
+        //pFilt = new ParticleFilter(world,mean,sigma,NParticles);  
+    }
+    else                   // Adaptive PF
+    {
+        pFilt = new ParticleFilter(world,NParticles);        
+    }
     auto propagationParameters = programConfig["ParticleFilter"]["PropagationParameters"];
     double motion_forward_std= propagationParameters["motion_forward_std"];
     double motion_turn_std   = propagationParameters["motion_turn_std"];
     double meas_dist_std     = propagationParameters["meas_dist_std"];
     double meas_angl_std     = propagationParameters["meas_angl_std"];
 
-    pFilt.setNoiseLevel(motion_forward_std,motion_turn_std,meas_dist_std,meas_angl_std);
+    pFilt->setNoiseLevel(motion_forward_std,motion_turn_std,meas_dist_std,meas_angl_std);
 
-    pFilt.configureResampler( programConfig["ParticleFilter"]["ResamplingAlgorithm"],
+    pFilt->configureResampler( programConfig["ParticleFilter"]["ResamplingAlgorithm"],
                               programConfig["ParticleFilter"]["ResamplingScheme"],
                               programConfig["ParticleFilter"]["ResamplingThreshold"]);
     // ------
@@ -63,8 +75,8 @@ int main() {
     for (int i = 0; i < N; i ++)
     {
         // Plot the state of the World at t = i
-        PoseList ParticlePositions = pFilt.get_PositionList();
-        Pose AverageParticle = pFilt.get_average_state();
+        PoseList ParticlePositions = pFilt->get_PositionList();
+        Pose AverageParticle = pFilt->get_average_state();
         world.plotWorld(rob.getPosition(), ParticlePositions, AverageParticle,i);
         // Start Clock of this iteration (we dont include time taken by viz)
         auto start = std::chrono::steady_clock::now();
@@ -73,11 +85,11 @@ int main() {
         // The Robot Performs a Measurement
         measurementList meas = rob.measure(world); 
         // The ParticleFilter incorporates the Measurement 
-        pFilt.update(rob._distance_driv, rob._angle_driv, meas, world);
+        pFilt->update(rob._distance_driv, rob._angle_driv, meas, world);
         // Stop Clock of this iteration (we dont include time taken by viz)
         auto end = std::chrono::steady_clock::now();
 
         std::cout<<"Timestep "<<i<<" Complete. Time Taken: "<<
-        std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " milliseconds"<<"\n";
+        std::chrono::duration_cast<std::chrono::microseconds>(end - start).count()/1000.0 << " milliseconds"<<"\n";
     }
 }

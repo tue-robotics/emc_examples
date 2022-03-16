@@ -43,11 +43,11 @@ class ParticleFilterBase
     // Normalise particle Weights to one.
     void normaliseWeights();
 
-    // Virtual update function, needs to be implemented by specific flavor of Particle filter
-    virtual void update(double forwardMotion, double angleMotion, measurementList measurement, World world) {}
+    // Pure Virtual update function, needs to be implemented by specific flavor of Particle filter
+    virtual void update(double forwardMotion, double angleMotion, measurementList measurement, World world)=0;
     
-    // Virtual function to initialise the resampler when necessary
-    virtual void configureResampler(std::string algorithm, std::string resamplingScheme, double long resampleThreshold){}
+    // Pure Virtual function to initialise the resampler when necessary
+    virtual void configureResampler(std::string algorithm, std::string resamplingScheme, double long resampleThreshold)=0;
 
     // Get number of Particles
     int getNumberParticles();
