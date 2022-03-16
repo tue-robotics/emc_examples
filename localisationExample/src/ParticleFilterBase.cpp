@@ -105,12 +105,12 @@ void ParticleFilterBase::normaliseWeights()
     return; 
 }
 
-int ParticleFilterBase::getNumberParticles()
+int ParticleFilterBase::getNumberParticles() const
 {
     return _N;
 }
 
-PoseList ParticleFilterBase::get_PositionList()
+PoseList ParticleFilterBase::get_PositionList() const
 {
     PoseList PositionList;
 
@@ -120,4 +120,9 @@ PoseList ParticleFilterBase::get_PositionList()
     }
 
     return PositionList;
+}
+
+void ParticleFilterBase::resetNumberParticles()
+{
+    _N = _particles.size();
 }

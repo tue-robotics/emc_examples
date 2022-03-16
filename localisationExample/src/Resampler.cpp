@@ -103,3 +103,18 @@ void Resampler::_stratified(ParticleList &Particles, int N)
     }
     return;
 }
+
+int Resampler::generateSampleIndex(ParticleList &Particles)
+{
+    LikelihoodVector Q = _makeCumSumVector(Particles);
+    
+    std::uniform_real_distribution<double> distribution(1e-6,1);
+    double u = distribution(*_generatorPtr);
+
+    auto islarger = [u](Likelihood i){return i>=u;};
+    auto it = std::find_if(begin(Q),end(Q),islarger);
+
+    int  m  = it-Q.begin();
+
+    return m;
+}

@@ -2,6 +2,7 @@
 #include "World.h"
 #include "Robot.h"
 #include "ParticleFilter.h"
+#include "AdaptiveParticleFilter.h"
 #include "Resampler.h"
 
 #include <chrono>
@@ -54,10 +55,16 @@ int main() {
     {
         pFilt = new ParticleFilter(world,NParticles);
         //pFilt = new ParticleFilter(world,mean,sigma,NParticles);  
+        pFilt->configureResampler( programConfig["ParticleFilter"]["ResamplingAlgorithm"],
+                                   programConfig["ParticleFilter"]["ResamplingScheme"],
+                                   programConfig["ParticleFilter"]["ResamplingThreshold"]);
     }
     else                   // Adaptive PF
     {
-        pFilt = new ParticleFilter(world,NParticles);        
+        pFilt = new AdaptiveParticleFilter(world,NParticles);        
+        pFilt -> configureAdaptive(programConfig["ParticleFilter"]["ResamplingScheme"],
+                                   programConfig["ParticleFilter"]["ResamplingThreshold"],
+                                   15.0);
     }
     auto propagationParameters = programConfig["ParticleFilter"]["PropagationParameters"];
     double motion_forward_std= propagationParameters["motion_forward_std"];
@@ -66,10 +73,6 @@ int main() {
     double meas_angl_std     = propagationParameters["meas_angl_std"];
 
     pFilt->setNoiseLevel(motion_forward_std,motion_turn_std,meas_dist_std,meas_angl_std);
-
-    pFilt->configureResampler( programConfig["ParticleFilter"]["ResamplingAlgorithm"],
-                              programConfig["ParticleFilter"]["ResamplingScheme"],
-                              programConfig["ParticleFilter"]["ResamplingThreshold"]);
     // ------
     // Loop the simulation for the length of the simulation
     for (int i = 0; i < N; i ++)

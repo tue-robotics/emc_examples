@@ -63,5 +63,6 @@
         plt::xlim(0, _size_x);
         plt::ylim(0, _size_y);
         plt::pause(0.1);
+        plt::save("StateOfTheWorld@t=" + std::to_string(i) + ".png");
         return;
     }

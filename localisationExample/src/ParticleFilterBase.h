@@ -29,7 +29,7 @@ class ParticleFilterBase
     Pose get_average_state();
 
     // Get Particle Pose List
-    PoseList get_PositionList();
+    PoseList get_PositionList() const;    
 
     // Propagate Samples based on odometry information
     void propagateSamples(double forwardMotion, double angleMotion);
@@ -46,20 +46,26 @@ class ParticleFilterBase
     // Pure Virtual update function, needs to be implemented by specific flavor of Particle filter
     virtual void update(double forwardMotion, double angleMotion, measurementList measurement, World world)=0;
     
-    // Pure Virtual function to initialise the resampler when necessary
-    virtual void configureResampler(std::string algorithm, std::string resamplingScheme, double long resampleThreshold)=0;
+    // Virtual function to initialise the resampler when necessary
+    virtual void configureResampler(std::string algorithm, std::string resamplingScheme, double long resampleThreshold){}
+
+    // Virtual function to initialise the adaptive parameters when necessary
+    virtual void configureAdaptive(std::string resamplingScheme, Likelihood resampleThreshold, Likelihood likelihoodThreshold){}
 
     // Get number of Particles
-    int getNumberParticles();
+    int getNumberParticles() const;
+
+    // Reset number of Particles
+    void resetNumberParticles();
 
     // Debugging Tools 
     void printAllParticles();
 
     std::default_random_engine _generator;
     ParticleList _particles;            // Storage of samples
+    double _processNoise[2];            // Array Containing ProcessNoise values
+    double _measurmentNoise[2];         // Array Containing MeasurementNoise values
 
     private:
-    double _processNoise[2];
-    double _measurmentNoise[2];
     int    _N;                          // Total number of samples.
 };
