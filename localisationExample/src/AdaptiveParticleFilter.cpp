@@ -5,8 +5,8 @@ void AdaptiveParticleFilter::update(double forwardMotion, double angleMotion, me
     ParticleList oldParticles = _particles;
     _particles.clear();
 
-    int Nnew = 0;       //Number of New Particles
-    int Nreq;           //Number of required Particles
+    int Nnew = -1;       //Number of New Particles
+    int Nreq = _N_max;      //Number of required Particles
     // Internal variables
     BinList binsWithSupport;
     int Nbins = 0;
@@ -50,6 +50,7 @@ void AdaptiveParticleFilter::update(double forwardMotion, double angleMotion, me
         Nreq = std::max(Nreq,_N_min);
         Nreq = std::min(Nreq,_N_max);
     }
+    std::cout<<"Done Resampling: N: "<<Nreq<<" N_max: "<<_N_max<<" N_min: "<<_N_min<<std::endl;
     // Normalize weights
     normaliseWeights();
     // Tell the base that the number of particles has changed
