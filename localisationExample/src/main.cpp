@@ -63,9 +63,9 @@ int main() {
     {
         pFilt = new AdaptiveParticleFilter(world,NParticles);        
         pFilt -> configureAdaptive(programConfig["ParticleFilter"]["ResamplingScheme"],
-                                   programConfig["ParticleFilter"]["ResamplingThreshold"],
-                                   15.0);
+                                   programConfig["ParticleFilter"]["ResamplingThreshold"]);
     }
+
     auto propagationParameters = programConfig["ParticleFilter"]["PropagationParameters"];
     double motion_forward_std= propagationParameters["motion_forward_std"];
     double motion_turn_std   = propagationParameters["motion_turn_std"];

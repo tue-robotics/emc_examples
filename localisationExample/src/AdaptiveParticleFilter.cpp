@@ -35,17 +35,20 @@ void AdaptiveParticleFilter::update(double forwardMotion, double angleMotion, me
         Bin indices = {  floor(PoseM[0] / _resolution[0]),
                          floor(PoseM[1] / _resolution[1]),
                          floor(PoseM[2] / _resolution[2])};
+
         // Add indices if this bin is empty (i.e. is not in vector yet)
         if(not(idxInBins(indices,binsWithSupport)))
         {
             binsWithSupport.push_back(indices);
             Nbins++;
         }     
+
         // Update number of required particles (only defined if number of bins with support above 1)
         if(Nbins>1)
         {
             Nreq = computeRequiredParticles(Nbins,_epsilon,_upperQ);
         }
+        
         // Constrain required Number of Particles between min and max value
         Nreq = std::max(Nreq,_N_min);
         Nreq = std::min(Nreq,_N_max);
@@ -83,11 +86,10 @@ bool AdaptiveParticleFilter::idxInBins(Bin &indices, BinList &binsWithSupport)
     }
 }
 
-void AdaptiveParticleFilter::configureAdaptive(std::string resamplingScheme, Likelihood resampleThreshold, Likelihood likelihoodThreshold)
+void AdaptiveParticleFilter::configureAdaptive(std::string resamplingScheme, Likelihood resampleThreshold)
 {
     _resamplingScheme = resamplingScheme;
     _resampleThreshold = resampleThreshold;
-    _likelihoodThreshold = likelihoodThreshold;
 
     _resampler.initaliseResampler(&(_generator),"Adaptive");
 

@@ -19,7 +19,7 @@ class AdaptiveParticleFilter : public ParticleFilterBase
 
     AdaptiveParticleFilter(World world, double mean[3], double sigma[3], int N): ParticleFilterBase(world, mean, sigma , N), _N_max(N) {}
 
-    void configureAdaptive(std::string resamplingScheme, Likelihood resampleThreshold, Likelihood likelihoodThreshold);
+    void configureAdaptive(std::string resamplingScheme, Likelihood resampleThreshold);
     
     bool needsResampling() {return true;};
 
@@ -35,8 +35,6 @@ class AdaptiveParticleFilter : public ParticleFilterBase
     Resampler _resampler;
     std::string _resamplingScheme;
     Likelihood _resampleThreshold;
-
-    Likelihood _likelihoodThreshold;
 
     //Configuration Parameters
     std::vector<double> _resolution;
