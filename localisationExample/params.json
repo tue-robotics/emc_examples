@@ -55,7 +55,7 @@
       },
       "ParticleFilterFlavor": "Adaptive",    
       "ResamplingScheme": "Always",
-      "ResamplingThreshold" : 250,
+      "ResamplingThreshold" : 0.25,
       "ResamplingAlgorithm": "Multinomial"
     }
   }

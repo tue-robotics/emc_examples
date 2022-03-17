@@ -45,7 +45,7 @@ bool ParticleFilter::needsResampling() const
                                                        Likelihood(0.0), 
                                                        accumulateSquaredWeight);
         // Return true when the threshold is met
-        return (1/sumSquaredWeights) < _resampleThreshold;
+        return (1/sumSquaredWeights) < _resampleThreshold*ParticleFilterBase::getNumberParticles();
     }    
     else
     {
