@@ -63,26 +63,27 @@ void AdaptiveParticleFilter::update(const double &forwardMotion, const double &a
 
 double AdaptiveParticleFilter::computeRequiredParticles(int k, double epsilon, double upperQ)
 {
+    // For the theoretical background of this formula the reader is reffered to the literature
+    // on kld-adaptive particle filters
+    
     double x = 1 - 2/(9*(k-1)) + std::sqrt(2/(9*(k-1))) * upperQ;
     return std::ceil((k-1)/(2*epsilon)*x*x*x);
 }
 
 bool AdaptiveParticleFilter::idxInBins(Bin &indices, BinList &binsWithSupport)
 {
-    auto compare2Bins = [indices](const Bin &A){ bool check = A[1] == indices[1] & 
-                                                              A[2] == indices[2] &
-                                                              A[3] == indices[3];
-                                                 return check;                       };
+    // This function determines whether a given set indices is already present in the bin list
 
+    // Use the find function to find an element of the vector that is equal to indices
     auto it = std::find(binsWithSupport.begin(),binsWithSupport.end(),indices);
 
-    if (it == binsWithSupport.end())
+    if (it == binsWithSupport.end())    // If the iterator reaches the end of the vector
     {
-        return false;
+        return false;                   // The item is not yet in the list
     }
-    else
+    else    
     {
-        return true;
+        return true;                    // The item is already in the list
     }
 }
 

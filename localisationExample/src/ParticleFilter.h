@@ -3,6 +3,11 @@
 #include "ParticleFilterBase.h"
 #include "Resampler.h"
 
+// Implementation of an Conventional Particle Filter using two types of resampling and two types of ressampling scheme
+// For a theoretical background the reader is reffered to the original paper on which this code is based:
+// 
+// Elfring J, Torta E, van de Molengraft R. Particle Filters: A Hands-On Tutorial. Sensors. 2021; 21(2):438.
+
 class ParticleFilter : public ParticleFilterBase
 {
     public:

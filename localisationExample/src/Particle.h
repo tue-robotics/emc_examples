@@ -8,6 +8,8 @@
 typedef double Likelihood;
 typedef std::vector<Likelihood> LikelihoodVector;
 
+// Implementation of a particle, used in the implementation in the 
+
 class Particle : public Object
 {
     public:
