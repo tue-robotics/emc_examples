@@ -1,6 +1,6 @@
 #include "Robot.h"
 
-Robot::Robot(Pose position, std::vector<double> params) : pltObject(position,50,"o")
+Robot::Robot(Pose position, std::vector<double> params) : Object(position)
 {
     _x     = position[0];
     _y     = position[1];
@@ -31,7 +31,7 @@ void Robot::move(double desired_dist,double desired_rot, World world)
     }
 
     // Todo cyclic world assumption
-    pltObject::setPosition({_x,_y,_theta});
+    Object::setPosition({_x,_y,_theta});
 }
 
 measurementList Robot::measure(World world)

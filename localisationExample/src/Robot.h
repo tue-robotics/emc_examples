@@ -10,7 +10,7 @@
 typedef std::vector<double> msrmnt;
 typedef std::vector<msrmnt> measurementList;
 
-class Robot: public pltObject
+class Robot: public Object
 {
     public:
     Robot(Pose position, std::vector<double> params);

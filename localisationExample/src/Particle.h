@@ -8,7 +8,7 @@
 typedef double Likelihood;
 typedef std::vector<Likelihood> LikelihoodVector;
 
-class Particle : public pltObject
+class Particle : public Object
 {
     public:
     // Initialise Particle either uniformly or according to a Gaussian distribution

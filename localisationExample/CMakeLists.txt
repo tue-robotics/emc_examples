@@ -13,7 +13,7 @@ set(DCMAKE_BUILD_TYPE,"Debug")
 
 # add executable
 include_directories(./include/)
-add_executable(main src/main.cpp ./src/World.cpp ./src/LandMark.cpp ./src/PltObject.cpp 
+add_executable(main src/main.cpp ./src/World.cpp ./src/LandMark.cpp ./src/Object.cpp 
                ./src/Robot.cpp ./src/Particle.cpp ./src/ParticleFilter.cpp ./src/ParticleFilterBase.cpp 
                ./src/Resampler.cpp ./src/AdaptiveParticleFilter.cpp)
 

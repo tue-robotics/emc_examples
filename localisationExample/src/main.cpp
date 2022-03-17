@@ -55,9 +55,9 @@ int main() {
     {
         pFilt = new ParticleFilter(world,NParticles);
         //pFilt = new ParticleFilter(world,mean,sigma,NParticles);  
-        pFilt->configureResampler( programConfig["ParticleFilter"]["ResamplingAlgorithm"],
-                                   programConfig["ParticleFilter"]["ResamplingScheme"],
-                                   programConfig["ParticleFilter"]["ResamplingThreshold"]);
+        pFilt -> configureResampler( programConfig["ParticleFilter"]["ResamplingAlgorithm"],
+                                     programConfig["ParticleFilter"]["ResamplingScheme"],
+                                     programConfig["ParticleFilter"]["ResamplingThreshold"]);
     }
     else // Adaptive PF
     {

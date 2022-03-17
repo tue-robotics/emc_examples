@@ -1,4 +1,6 @@
 #include "World.h"
+#include <../include/matplotlibcpp.h>
+namespace plt = matplotlibcpp;
 
     World::World(LandMarkList lms ,int sz_x,int sz_y): _lms(lms), _size_x(sz_x), _size_y(sz_y) {};
 
