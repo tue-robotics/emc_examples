@@ -8,9 +8,9 @@
 class LandMark: public Object
 {
     public:
-
+    // Constructor to create a landmark, given a position
     LandMark(Pose position);
-
+    // Debugging tool, print the landmark
     void printObject() const override;
 };
 

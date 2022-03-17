@@ -37,13 +37,14 @@ bool ParticleFilter::needsResampling() const
     }
     else if (_resamplingScheme.compare("effectiveParticleThreshold") == 0)
     {
+        // Lambda to acummulate the squared of all particle weights
         auto accumulateSquaredWeight = [](Likelihood i, const Particle& o){return i + o.getWeight()*o.getWeight();};
-        
+        // Comupte the sum of the squared particle weights
         Likelihood sumSquaredWeights = std::accumulate(begin(_particles), 
                                                        end(_particles), 
                                                        Likelihood(0.0), 
                                                        accumulateSquaredWeight);
-
+        // Return true when the threshold is met
         return (1/sumSquaredWeights) < _resampleThreshold;
     }    
     else

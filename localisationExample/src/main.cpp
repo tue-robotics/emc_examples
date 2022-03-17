@@ -87,8 +87,11 @@ int main() {
         rob.move(desiredDist,desiredRot,world);
         // The Robot Performs a Measurement
         measurementList meas = rob.measure(world); 
+        // Obtain odometry information (in this case the desired motion)
+        double odom_dist = desiredDist;
+        double odom_angl = desiredRot;
         // The ParticleFilter incorporates the Measurement 
-        pFilt->update(rob._distance_driv, rob._angle_driv, meas, world);
+        pFilt->update(odom_dist,odom_angl, meas, world);
         // Stop Clock of this iteration (we dont include time taken by viz)
         auto end = std::chrono::steady_clock::now();
 

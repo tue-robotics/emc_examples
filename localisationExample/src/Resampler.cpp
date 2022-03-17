@@ -7,7 +7,8 @@ void Resampler::initaliseResampler(std::default_random_engine* generatorPtr, std
 }
 
 void Resampler::resample(ParticleList &Particles, int N)
-{
+{   
+    // Selects the desired resampling algorithm
     if (_algorithm.compare("Multinomial") == 0)
     {
         _multinomial(Particles,N);
@@ -24,14 +25,14 @@ void Resampler::resample(ParticleList &Particles, int N)
 
 LikelihoodVector Resampler::_makeCumSumVector(const ParticleList &Particles)
 {
-    LikelihoodVector Q;
-    Q.reserve(Particles.size());
-    long double runningSum = 0;
+    LikelihoodVector Q; // Create Empty vector
+    Q.reserve(Particles.size()); // Reserve space for N elements
+    long double runningSum = 0; // Running sum of particle 0 till i 
 
     for(int i = 0; i<Particles.size(); i++)
     {
-        runningSum += Particles[i].getWeight();
-        Q.push_back(runningSum);
+        runningSum += Particles[i].getWeight(); // Add the weight of particle i to the running sum
+        Q.push_back(runningSum); // Append the running sum
     }
     return Q;
 } 
@@ -106,15 +107,23 @@ void Resampler::_stratified(ParticleList &Particles, int N)
 
 int Resampler::generateSampleIndex(ParticleList &Particles)
 {
-    LikelihoodVector Q = _makeCumSumVector(Particles);
+    // This functions samples a particle index based on the 
+    // weights of the respective particles
+
+    // Generate a vector containing the cumulative weight of the particles
+    //(Would be more efficient to only calculate this once every time the resampler is called)
+    LikelihoodVector Q = _makeCumSumVector(Particles); 
     
+    // Sample a unif-dist. random variable, between 0 and 1
     std::uniform_real_distribution<double> distribution(1e-6,1);
     double u = distribution(*_generatorPtr);
 
+    // Lambda that determines wheter the element of the cum.sum is larger than the sample
     auto islarger = [u](Likelihood i){return i>=u;};
+    // Find the first particle that statisfies the above
     auto it = std::find_if(begin(Q),end(Q),islarger);
-
+    // Obtain idx from iterator 
     int  m  = it-Q.begin();
-
+    // Return this index
     return m;
 }
