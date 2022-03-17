@@ -7,7 +7,8 @@ void Resampler::initaliseResampler(std::default_random_engine* generatorPtr, std
 }
 
 void Resampler::resample(ParticleList &Particles, int N)
-{
+{   
+    // Selects the desired resampling algorithm
     if (_algorithm.compare("Multinomial") == 0)
     {
         _multinomial(Particles,N);
@@ -24,14 +25,14 @@ void Resampler::resample(ParticleList &Particles, int N)
 
 LikelihoodVector Resampler::_makeCumSumVector(const ParticleList &Particles)
 {
-    LikelihoodVector Q;
-    Q.reserve(Particles.size());
-    long double runningSum = 0;
+    LikelihoodVector Q; // Create Empty vector
+    Q.reserve(Particles.size()); // Reserve space for N elements
+    long double runningSum = 0; // Running sum of particle 0 till i 
 
     for(int i = 0; i<Particles.size(); i++)
     {
-        runningSum += Particles[i].getWeight();
-        Q.push_back(runningSum);
+        runningSum += Particles[i].getWeight(); // Add the weight of particle i to the running sum
+        Q.push_back(runningSum); // Append the running sum
     }
     return Q;
 } 
@@ -61,7 +62,7 @@ void Resampler::_multinomial(ParticleList &Particles, int N)
         int  m  = it-Q.begin();                                 // Retrieve Particle Index from iterator
         // Add Particle to Resampled set of particles
         Particle part_m = OldParticles[m];
-        part_m.setWeight(1/double(N));
+        part_m.setWeight(1.0/N);
         Particles.push_back(part_m);
         // Keep the bookkeeping up to date
         n+=1;
@@ -74,7 +75,6 @@ void Resampler::_stratified(ParticleList &Particles, int N)
     // Counters
     int n = 0;
     int m = 0;
-    int m2= 0;
 
     // Clear current Particles, save old particles
     ParticleList OldParticles = Particles;    
@@ -97,10 +97,33 @@ void Resampler::_stratified(ParticleList &Particles, int N)
         m  = it-Q.begin();                                     // Retrieve Particle Index from iterator
         // Append Particle to Set of new particles
         Particle particleM = OldParticles[m];
-        particleM.setWeight(1.0/(double(N)));
+        particleM.setWeight(1.0/N);
         Particles.push_back(particleM);
         // Keep Bookkeeping up to date
         n++;
     }
     return;
+}
+
+int Resampler::generateSampleIndex(ParticleList &Particles)
+{
+    // This functions samples a particle index based on the 
+    // weights of the respective particles
+
+    // Generate a vector containing the cumulative weight of the particles
+    //(Would be more efficient to only calculate this once every time the resampler is called)
+    LikelihoodVector Q = _makeCumSumVector(Particles); 
+    
+    // Sample a unif-dist. random variable, between 0 and 1
+    std::uniform_real_distribution<double> distribution(1e-6,1);
+    double u = distribution(*_generatorPtr);
+
+    // Lambda that determines wheter the element of the cum.sum is larger than the sample
+    auto islarger = [u](Likelihood i){return i>=u;};
+    // Find the first particle that statisfies the above
+    auto it = std::find_if(begin(Q),end(Q),islarger);
+    // Obtain idx from iterator 
+    int  m  = it-Q.begin();
+    // Return this index
+    return m;
 }

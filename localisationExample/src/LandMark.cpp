@@ -1,15 +1,10 @@
 #include "LandMark.h" 
 
-LandMark::LandMark(Pose position) : pltObject(position,6,"s") {}
+LandMark::LandMark(Pose position) : Object(position) {}
 
-void LandMark::printObject()
+void LandMark::printObject() const
 {
     std::string type = "Landmark";
     std::cout<< "Object: " << type << std::endl;
-    pltObject::printObject();
-}
-
-Pose LandMark::getPosition()
-{
-    return pltObject::getPosition();
+    Object::printObject();
 }

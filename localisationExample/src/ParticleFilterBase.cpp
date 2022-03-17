@@ -1,6 +1,6 @@
 #include "ParticleFilterBase.h"
 
-ParticleFilterBase::ParticleFilterBase(World world, int N)
+ParticleFilterBase::ParticleFilterBase(const World &world, const int &N)
 {
     _N = N;
     Likelihood weight = 1.0/double(N);  
@@ -12,7 +12,7 @@ ParticleFilterBase::ParticleFilterBase(World world, int N)
 }
 
 
-ParticleFilterBase::ParticleFilterBase(World world, double mean[3], double sigma[3], int N)
+ParticleFilterBase::ParticleFilterBase(const World &world, double mean[3], double sigma[3], const int &N)
 {
     _N = N;
     Likelihood weight = 1/_N;    
@@ -40,14 +40,14 @@ void ParticleFilterBase::propagateSamples(double forwardMotion, double angleMoti
     }
 }
 
-LikelihoodVector ParticleFilterBase::computeLikelihoods(measurementList measurement, World world)
+LikelihoodVector ParticleFilterBase::computeLikelihoods(const measurementList &measurement, const World &world)
 {
     LikelihoodVector result;
     result.reserve(_N);
 
     for (int i = 0; i<_N; i++)
     {
-        Likelihood val_i = _particles[i].computeLikelihood(measurement,world, _measurmentNoise);
+        Likelihood val_i = _particles[i].computeLikelihood(measurement, world, _measurmentNoise);
         result.push_back(val_i);
     }     
     return result;
@@ -60,18 +60,18 @@ Pose ParticleFilterBase::get_average_state()
     Pose weightedPosition = {0,0,0};
     for (int i = 0; i<_N; i++)
     {
-        Pose position_i           = _particles[i].getPosition();
-        Likelihood weightFactor   = _particles[i].getWeight();
+        Pose position_i = _particles[i].getPosition();
+        Likelihood weightFactor = _particles[i].getWeight();
 
-        weightedPosition[0]  +=  weightFactor * position_i[0];
-        weightedPosition[1]  +=  weightFactor * position_i[1];
-        weightedPosition[2]  +=  weightFactor * position_i[2];
+        weightedPosition[0] += weightFactor * position_i[0];
+        weightedPosition[1] += weightFactor * position_i[1];
+        weightedPosition[2] += weightFactor * position_i[2];
     }
 
     return weightedPosition;
 }
 
-void ParticleFilterBase::printAllParticles()
+void ParticleFilterBase::printAllParticles() const
 {
     for (int i  = 0 ; i<_N; i++)
     {
@@ -84,7 +84,7 @@ double ParticleFilterBase::findMaxWeight()
     // Lambda that compares the Weight value of Two particles
     auto compareAttribute = []( Particle &particle1, const Particle &particle2){return particle1.getWeight() < particle2.getWeight();};
     // Find the an iterator of the particle with the highest weight
-    auto it = std::max_element(_particles.begin(),_particles.end(),compareAttribute);
+    auto it = std::max_element(_particles.begin(), _particles.end(),compareAttribute);
     // Return the value of the weight of the found iterator
     return it->getWeight(); 
 }
@@ -101,16 +101,16 @@ void ParticleFilterBase::normaliseWeights()
     // lambda that divides the particle p by the totalSum variable
     auto divideWeight = [totalSum](Particle &p){p.setWeight(p.getWeight()/totalSum);};
     // Divide all particles by the totalSum, which thus results in a cumSum of 1.
-    std::for_each(_particles.begin(),_particles.end(),divideWeight);    
+    std::for_each(_particles.begin(), _particles.end(), divideWeight);    
     return; 
 }
 
-int ParticleFilterBase::getNumberParticles()
+int ParticleFilterBase::getNumberParticles() const
 {
     return _N;
 }
 
-PoseList ParticleFilterBase::get_PositionList()
+PoseList ParticleFilterBase::get_PositionList() const
 {
     PoseList PositionList;
 
@@ -120,4 +120,9 @@ PoseList ParticleFilterBase::get_PositionList()
     }
 
     return PositionList;
+}
+
+void ParticleFilterBase::resetNumberParticles()
+{
+    _N = _particles.size();
 }

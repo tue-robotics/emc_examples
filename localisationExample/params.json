@@ -53,9 +53,10 @@
         "meas_dist_std": 0.4,
         "meas_angl_std": 0.3
       },
-      "ParticleFilterFlavor": "Conventional",    
+      "ParticleFilterFlavor": "Adaptive",    
       "ResamplingScheme": "Always",
-      "ResamplingThreshold" : 250,
+      "ResamplingThreshold" : 0.25,
       "ResamplingAlgorithm": "Multinomial"
     }
   }
+  

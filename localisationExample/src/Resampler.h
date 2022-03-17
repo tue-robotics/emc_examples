@@ -3,9 +3,11 @@
 
 class Resampler
 {
-        public:
+    public:
     void initaliseResampler (std::default_random_engine* generatorPtr, std::string algorithm); 
     void resample(ParticleList &Particles, int N);
+    // Generate A sample index for the Adaptive resampler
+    int generateSampleIndex(ParticleList &Particles);
 
     private:
      // Construct Vector Q, containing the cummulative sum of the Particle Weights

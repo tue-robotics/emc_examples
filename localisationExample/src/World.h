@@ -10,11 +10,10 @@ class World
     public:
     World(LandMarkList lms, int sz_x ,int sz_y);
 
-    LandMarkList getLandMarks();
-    LandMark     getLandMark(int id);
+    LandMarkList getLandMarks() const;
+    LandMark getLandMark(int id) const;
 
-    void         plotWorld(Pose robotPose, PoseList particles, Pose AverageParticle, int i);
-
+    void plotWorld(Pose robotPose, PoseList particles, Pose AverageParticle, int i);
 
     int _size_x;
     int _size_y;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include<vector>
+#include <vector>
 #include <math.h> 
 #include <random>
 
@@ -10,18 +10,20 @@
 typedef std::vector<double> msrmnt;
 typedef std::vector<msrmnt> measurementList;
 
-class Robot: public pltObject
+class Robot: public Object
 {
     public:
-                        Robot(Pose position, std::vector<double> params);
-    measurementList     measure(World world);    
-    void                move(double desired_dist,double desired_rot, World world);
+    // Initialise the robot at a certain position, and given the noise parameters
+    Robot(Pose position, std::vector<double> params);
+    
+    // Measure the distance and angle to the landmarks from the current position
+    measurementList measure(World world);    
 
+    // Move the desired distance and turn the desired amount 
+    void move(double desired_dist,double desired_rot, World world);
+
+    // Get a gaussian noise sample in order to simulate noisy measurments and odometry
     double _get_noise_sample(double mu,double sigma);    
-
-    // Odometry Information
-    double _distance_driv;
-    double _angle_driv;
     
     private:
     double _x;

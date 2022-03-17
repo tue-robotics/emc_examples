@@ -3,20 +3,15 @@
 #include<string>
 #include<iostream>
 
-#include "PltObject.h"
+#include "Object.h"
 
-class LandMark: public pltObject
+class LandMark: public Object
 {
-
-public:
-
-LandMark(Pose position);
-
-void printObject();
-
-Pose getPosition();
-
-
+    public:
+    // Constructor to create a landmark, given a position
+    LandMark(Pose position);
+    // Debugging tool, print the landmark
+    void printObject() const override;
 };
 
 typedef std::vector<LandMark> LandMarkList;

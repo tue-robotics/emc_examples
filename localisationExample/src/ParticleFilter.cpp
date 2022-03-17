@@ -1,12 +1,12 @@
 #include "ParticleFilter.h"
 
-void ParticleFilter::update(double forwardMotion, double angleMotion, measurementList measurement, World world)
+void ParticleFilter::update(const double &forwardMotion, const double &angleMotion, const measurementList &measurement, const World &world) 
 {
     // Propagate ParticleFilter Samples based on observed odometry information
     ParticleFilterBase::propagateSamples(forwardMotion,angleMotion);
     // Update Likelihoods and weights of the Particles based on the observed measurements
     LikelihoodVector likelihoods = ParticleFilterBase::computeLikelihoods(measurement,world);
-    
+
     for (int i = 0; i<ParticleFilterBase::getNumberParticles(); i++)
     {
         ParticleFilterBase::_particles[i].setWeight(likelihoods[i]);
@@ -29,7 +29,7 @@ void ParticleFilter::configureResampler(std::string algorithm, std::string resam
     _resampleThreshold = resampleThreshold;
 }
 
-bool ParticleFilter::needsResampling() 
+bool ParticleFilter::needsResampling() const
 {
     if (_resamplingScheme.compare("Always") == 0)
     {
@@ -37,14 +37,15 @@ bool ParticleFilter::needsResampling()
     }
     else if (_resamplingScheme.compare("effectiveParticleThreshold") == 0)
     {
+        // Lambda to acummulate the squared of all particle weights
         auto accumulateSquaredWeight = [](Likelihood i, const Particle& o){return i + o.getWeight()*o.getWeight();};
-        
+        // Comupte the sum of the squared particle weights
         Likelihood sumSquaredWeights = std::accumulate(begin(_particles), 
                                                        end(_particles), 
                                                        Likelihood(0.0), 
                                                        accumulateSquaredWeight);
-
-        return (1/sumSquaredWeights) < _resampleThreshold;
+        // Return true when the threshold is met
+        return (1/sumSquaredWeights) < _resampleThreshold*ParticleFilterBase::getNumberParticles();
     }    
     else
     {

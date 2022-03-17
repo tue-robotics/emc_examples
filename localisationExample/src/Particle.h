@@ -1,39 +1,43 @@
 #pragma once
 
 #include "Robot.h"
+
+#include <math.h>
 #include <random>
 
-typedef double long Likelihood;
+typedef double Likelihood;
 typedef std::vector<Likelihood> LikelihoodVector;
 
-class Particle : public pltObject
+// Implementation of a particle, used in the implementation in the 
+
+class Particle : public Object
 {
     public:
     // Initialise Particle either uniformly or according to a Gaussian distribution
-    Particle(World World,double weight, std::default_random_engine* _generatorPtr); 
-    Particle(World World, double mean[3], double sigma[3],double weight, std::default_random_engine* _generatorPtr);
+    Particle(const World &World, const double &weight, std::default_random_engine* _generatorPtr); 
+    Particle(const World &World, const double mean[3], const double sigma[3], const double &weight, std::default_random_engine* _generatorPtr);
     // Replace position and weight of the Particle
     void setParticle(Particle particle);
     
     // Todo cyclic world assumption
 
     // Get current Position of Particle
-    const Pose getPosition();
+    Pose getPosition() const;
      // Get current Weight of Particle
-    double getWeight () const;
+    Likelihood getWeight () const;
     // Set Weight of Particle
-    void setWeight(double weight);
+    void setWeight(const Likelihood &weight);
     // Propagate the sample based on the received odomotry information
-    void propagateSample(double forwardMotion, double angleMotion, double proc_noise[2]);
+    void propagateSample(const double &forwardMotion, const double &angleMotion, const double proc_noise[2]);
     // Compute the likelihood of the particle based on the received measurement information
-    Likelihood computeLikelihood(measurementList measurement, World world, double meas_noise[2]);   
+    Likelihood computeLikelihood(const measurementList &measurement, const World &world, const double meas_noise[2]);   
     
     // Internal functions to compute uniform or gaussian samples
-    double _get_noise_sample_unfiorm(double minval, double maxval);
-    double _get_noise_sample_gaussian(double mu,double sigma);        
+    double _get_noise_sample_unfiorm(double minval, double maxval) const;
+    double _get_noise_sample_gaussian(double mu, double sigma) const;        
 
     // Debugging print sample inormation to terminal
-    void print(int i);                
+    void print(const int &i) const;                
 
     private:
     double _x;
