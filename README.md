@@ -12,7 +12,7 @@ This example implements a basic split and merge algorithm to extract line and co
 
 ## Using the Examples
 ### Full example and Feature extraction example
-These examples require the MRC environment to be installed on you machine. If you haven't already, download the install script:
+These examples require the MRC environment to be installed on your machine. If you haven't already, download the install script:
 ```bash
 wget https://raw.githubusercontent.com/tue-robotics/emc-env/master/install.bash
 ```
@@ -39,7 +39,7 @@ sudo apt-get install python3-matplotlib python3-numpy
 
 ## Credit
 ### Full example
-http://cstwiki.wtb.tue.nl/index.php?title=MRC/FullExample
+Taken from: http://cstwiki.wtb.tue.nl/index.php?title=MRC/FullExample
 
 ### Feature extraction example
 
