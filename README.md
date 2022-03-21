@@ -1,8 +1,24 @@
 # emc-examples
+
 ## Description
+### Full example
+This example shows suggestions on how to set up your project and structure your code. It is still far from perfect, but it can be a nice starting point. At its core, in the main file of this project, there is a state machine. Different other functionalities are separated into different files and classes. The current behavior is as follows: the robot starts driving forward using its drive forward skill. In the meantime, it continuously monitors its distance to the wall, using its detection skill. When a wall is detected, the robot cannot drive forward anymore and needs to turn. The state thus switches, and another set of skills is called: drive backward and rotate.
+
+### Feature extraction example
+This example implements a basic split and merge algorithm to extract line and corner features. Note that it is not mandatory to use this code, it is even encouraged to use any algorithm that works best for you. If you _do_ decide to use this code, it is still very much advised to at the very least better tweak the parameters, but ideally also improve other parts of the code.
+
 ### Localization example
 
+
 ## Using the Examples
+### Full example
+The full example requires the MRC environment to be installed on you machine. Please follow the instructions on <TODO>.
+For compiling and using this example, the reader is referred to the README file inside the project folder.
+  
+### Feature extraction example
+The feature extraction example requires the MRC environment to be installed on you machine. Please follow the instructions on <TODO>.
+For compiling and using this example, the reader is referred to the README file inside the project folder.
+
 ### Localization example
 
 The Localisation example (currently) uses matplotlibcpp and requires python3 and matplotlib to function.
