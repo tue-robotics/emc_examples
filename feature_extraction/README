@@ -10,11 +10,11 @@ roscore
 Terminal 3 -- start the simulator:
 emc-sim
 
-Terminal 4 -- visualize the sensor data (optional)
+Terminal 4 -- visualize the sensor data (optional):
 emc-viz
 
 Terminal 1 -- run the program:
 ../bin/main
 
-Terminal 5 -- manually control the robot (optional)
+Terminal 5 -- manually control the robot (optional):
 pico-teleop
