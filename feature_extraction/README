@@ -15,3 +15,6 @@ emc-viz
 
 Terminal 1 -- run the program:
 ../bin/main
+
+Terminal 5 -- manually control the robot (optional)
+pico-teleop
