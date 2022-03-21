@@ -22,10 +22,6 @@ source install.bash
 ```
 
 For compiling and using these examples, the reader is referred to the README files inside the project folders.
-  
-### Feature extraction example
-The feature extraction example requires the MRC environment to be installed on you machine. Please follow the instructions on <TODO>.
-For compiling and using this example, the reader is referred to the README file inside the project folder.
 
 ### Localization example
 
