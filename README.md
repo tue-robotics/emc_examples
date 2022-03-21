@@ -30,6 +30,12 @@ sudo apt-get install python3-matplotlib python3-numpy
 ```
 
 ## Credit
+### Full example
+http://cstwiki.wtb.tue.nl/index.php?title=MRC/FullExample
+
+### Feature extraction example
+
+
 ### Localization example
 
 The localization example is based on the python-code in:
