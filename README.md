@@ -11,9 +11,17 @@ This example implements a basic split and merge algorithm to extract line and co
 
 
 ## Using the Examples
-### Full example
-The full example requires the MRC environment to be installed on you machine. Please follow the instructions on <TODO>.
-For compiling and using this example, the reader is referred to the README file inside the project folder.
+### Full example and Feature extraction example
+These examples require the MRC environment to be installed on you machine. If you haven't already, download the install script:
+```bash
+wget https://raw.githubusercontent.com/tue-robotics/emc-env/master/install.bash
+```
+and run it:
+```bash
+source install.bash
+```
+
+For compiling and using these examples, the reader is referred to the README files inside the project folders.
   
 ### Feature extraction example
 The feature extraction example requires the MRC environment to be installed on you machine. Please follow the instructions on <TODO>.
