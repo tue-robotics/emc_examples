@@ -10,8 +10,8 @@ This example implements a basic split and merge algorithm to extract line and co
 ### Localization example
 This example implements an often used, and easily implementable, algorithm for localisation: the particle filter. Particle filters rely on sampling to approximate the distribution that describes the probabilities of the current robot location given the obtained measurments and the (provided) map. The example implementation (among other) assumes the following:
 
-* The particle filter receives odometry information from the robot,
-* The particle filter receives enviroment measurements from the robot.
+* The particle filter receives **odometry information** from the robot, the received odometry information is not perfect and **contains noise**
+* The particle filter receives **enviroment measurements** from the robot, the enviroment measurements are not perfect and **contain noise**
 
 
 More importantly,
@@ -19,13 +19,13 @@ More importantly,
 * The enviroment measurements contain the distance and angle to **features**[^1] on the map,
 * Every measurement corresponds **do**[^2] result from a feature on the map 
 * The particle filter assumes **known correspondence**[^3] between the measurement i and feature j,
-* The enviroment measurements have **infinite range**[^4], and can not be **occluded**[^5].
+* The enviroment measurements have **infinite range**, and can not be **occluded**[^4].
 
-[^1]: With features we mean...
+[^1]: With features (or landmarks) we mean recognizable objects in the physical world. For instance, corners, door frames, or permanent objects.
 [^2]: In the limited simulation enviroment in this example, spurious measurements are not considered. In the real world the robot might detect features that are not really there, either because of (dynamic) obstacles or through a spurious detection in your feature detection components.
-[^3]: With known correspondence we mean...
-[^4]: With infinite range we mean...
-[^5]: By occlusion we mean...
+[^3]: With known correspondence we mean that we know the mapping between a feature measurement and the corresponding feature. For instance, we could imagine that the robot detecting **a** corner, doesn't tell us with certainty **which** corner it detected.
+[^4]: With infinite range we mean that the robot is able to all the features on the map, no matter if it is close or far away.
+ By occlusion we mean that a feature will be detected, even if there is another featured that blocks the view. The combination of these two assumptions means that the robot will **always** measure the distance and orientation to **all** features.
 
 Solution strategies exsist for relaxing these last three assumptions, however, they will require a bit of creativity/research from your part. You **are** allowed to use the core part of the code in your project, however you're also encouraged to come up with your own solutions. 
 
