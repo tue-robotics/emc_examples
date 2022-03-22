@@ -33,8 +33,9 @@ Useful pointers or starting points to understanding the localisation problem can
 * Probabilistic Robotics by Sebastian Thrun, Wolfram Burgard and Dieter Fox,[^6]
 * [Course: Robot Mapping - WS 2013/14 by Cyrill Stachniss](http://ais.informatik.uni-freiburg.de/teaching/ws13/mapping/)[^7]
 
+
 [^6]: Especially, CH 2-9 can be useful, however, it is likely not necessary to read all of it.
-[^7]: Especially, lectures 2 and 11. However, you might need some prior knowledge for the latter.
+[^7]: Especially, lectures 1 (Introduction to Robot Mapping) and 11(Short Introduction to the Particle Filter and PF Localization). However, you might need some prior knowledge for the latter.
 
 
 ## Using the Examples
