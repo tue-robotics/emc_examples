@@ -18,6 +18,11 @@ To run the code
 ```bash
 ./build/main
 ```
+## Example working 
+
+![](https://raw.githubusercontent.com/tue-robotics/emc-examples/master/localisationExample/doc/exampleParticleFilter.gif)
+
+
 
 ## Localization example parameters
 Name          | Value        | Value                     | Value |Explanation
