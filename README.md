@@ -17,7 +17,7 @@ This example implements an often used, and easily implementable, algorithm for l
 More importantly,
 
 * The enviroment measurements contain the distance and angle to **features**[^1] on the map,
-* Every measurement corresponds **do**[^2] result from a feature on the map 
+* Every measurement **does**[^2] result from a feature on the map 
 * The particle filter assumes **known correspondence**[^3] between the measurement i and feature j,
 * The enviroment measurements have **infinite range**, and can not be **occluded**[^4].
 
