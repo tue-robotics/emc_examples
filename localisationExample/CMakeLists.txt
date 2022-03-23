@@ -9,7 +9,7 @@ include_directories(${PYTHON3_INCLUDE_DIRS} ${NumPy_INCLUDE_DIRS})
 
 include_directories(SYSTEM ${matplotlib_SOURCE_DIR})
 
-set(DCMAKE_BUILD_TYPE,"Debug")
+set(DCMAKE_BUILD_TYPE,"Release")
 
 # add executable
 include_directories(./include/)
