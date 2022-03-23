@@ -27,8 +27,13 @@ this is equivalent to:
 ./bin/main ./params.json
 ```
 ## Example  
-
 ![](https://raw.githubusercontent.com/tue-robotics/emc-examples/master/localisationExample/doc/exampleParticleFilter.gif)
+
+Above you see:
+* Particles (orange scattered dots)
+* Landmarks (black squares)
+* The weighted average of the particles (red circle)
+* The true robot position (green circle)
 
 ## Localization example parameters
 Name          | Value        | Value                     | Value |Explanation
