@@ -23,6 +23,10 @@ void Robot::move(double desired_dist,double desired_rot, World world)
     _x += _distance_driv * std::cos(_theta);
     _y += _distance_driv * std::sin(_theta);
 
+    // Odometry is a random variable centered at the desired distance
+    _odom_distance = _get_noise_sample(desired_dist, _std_forward);
+    _odom_angle = _get_noise_sample(desired_rot, _std_turn);
+
     // Bound the orientation of the robot between [-pi,pi]
     if(_theta > M_PI)
     {

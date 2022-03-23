@@ -24,6 +24,9 @@ class Robot: public Object
 
     // Get a gaussian noise sample in order to simulate noisy measurments and odometry
     double _get_noise_sample(double mu,double sigma);    
+
+    double _odom_distance;
+    double _odom_angle;
     
     private:
     double _x;

@@ -122,8 +122,8 @@ int main(int argc, char *argv[]) {
         // The Robot Performs a Measurement
         measurementList meas = rob.measure(world); 
         // Obtain odometry information (in this case the desired motion)
-        double odom_dist = desiredDist;
-        double odom_angl = desiredRot;
+        double odom_dist = rob._odom_distance;
+        double odom_angl = rob._odom_angle;
         // The ParticleFilter incorporates the Measurement 
         pFilt->update(odom_dist,odom_angl, meas, world);
         // Stop Clock of this iteration (we dont include time taken by viz)
