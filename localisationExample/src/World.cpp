@@ -38,7 +38,7 @@ namespace plt = matplotlibcpp;
             X.push_back(posi[0]);
             Y.push_back(posi[1]);            
         }
-        plt::scatter(X,Y,100);
+        plt::scatter(X,Y,100,{{"marker","s"},{"color","black"}});
 
         // Plot Particle Positions
         std::vector<double> Xparticles;
@@ -50,17 +50,28 @@ namespace plt = matplotlibcpp;
             Yparticles.push_back(particles[i][1]);
         }
 
-        plt::scatter(Xparticles, Yparticles,5);
+        plt::scatter(Xparticles, Yparticles,5,{{"color","orange"}});
 
         // Plot Robot Position
         std::vector<double> xRobot = {robotPose[0]};
         std::vector<double> yRobot = {robotPose[1]};        
-        plt::scatter(xRobot, yRobot,100);
+        std::vector<double> thRobot= {robotPose[2]};
+        plt::scatter(xRobot, yRobot,100,{{"color","darkgreen"}});
+        // Plot line denoting robot true orientation
+        double orientationLineLength = 0.3;
+        std::vector<double> orLineX = {robotPose[0], robotPose[0] + orientationLineLength*std::cos(robotPose[2])};
+        std::vector<double> orLineY = {robotPose[1], robotPose[1] + orientationLineLength*std::sin(robotPose[2])};
+        plt::plot(orLineX,orLineY,{{"color","darkgreen"}});
 
         // Plot Average Particle Position
         std::vector<double> xAverage = {AverageParticle[0]};
         std::vector<double> yAverage = {AverageParticle[1]};        
-        plt::scatter(xAverage, yAverage,100);
+        plt::scatter(xAverage, yAverage,100,{{"color","red"}});
+        // Plot line denoting robot average orientation
+        orLineX = {AverageParticle[0], AverageParticle[0] + orientationLineLength*std::cos(AverageParticle[2])};
+        orLineY = {AverageParticle[1], AverageParticle[1] + orientationLineLength*std::sin(AverageParticle[2])};
+        plt::plot(orLineX,orLineY,{{"color","red"}});
+
 
         plt::xlim(0, _size_x);
         plt::ylim(0, _size_y);
