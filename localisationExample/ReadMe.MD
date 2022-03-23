@@ -1,5 +1,5 @@
 
-## Building and running the Code
+## Building the Code
 Make sure the prerequisites are installed
 ```bash
 sudo apt-get update
@@ -13,12 +13,19 @@ cmake ..
 make 
 cd ..
 ```
-
+## Running the Program
 To run the code
 ```bash
-./build/main
+./bin/main ./Path/to/your/jsonfile
 ```
-
+Alternatively, when no arguments are provided,
+```bash
+./bin/main 
+```
+this is equivalent to:
+```bash
+./bin/main ./params.json
+```
 ## Localization example parameters
 Name          | Value        | Value                     | Value |Explanation
 ------------- | -------------|---------------------------|-------| ---------------------------

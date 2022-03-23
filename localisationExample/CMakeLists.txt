@@ -23,3 +23,6 @@ target_link_libraries(main
         ${PYTHON_LIBRARIES}
         Python3::NumPy
 )   
+
+
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
