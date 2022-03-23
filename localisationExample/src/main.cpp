@@ -10,11 +10,25 @@
 #include <fstream>
 
 
-int main() {
-    // Load the Configuration file
-    std::string filename = "params.json";
+int main(int argc, char *argv[]) {
+    // Load the intended config-file
+    std::string filename;
+    if (argc == 1) // No additional arguments provided. Use the default
+    {
+        std::cout<<"No command-line input provided. Using default config-file: ";
+        filename = "params.json";
+        std::cout<<filename<<std::endl;
+    }
+    else // Use the provided config-file
+    {
+        std::cout<<"Using User-provided config-file: ";
+        filename = argv[1];
+        std::cout<<filename<<std::endl;
+    }
+    // Parse the config-file which is in json format
     std::ifstream jsonFile(filename);
     nlohmann::json programConfig = nlohmann::json::parse(jsonFile);
+
     // Initialise the Simulation Enviroment
     // ------
     Pose RobotPose = programConfig["Robot"]["InitialPosition"];        
@@ -98,4 +112,6 @@ int main() {
         std::cout<<"Timestep "<<i<<" Complete. Time Taken: "<<
         std::chrono::duration_cast<std::chrono::microseconds>(end - start).count()/1000.0 << " milliseconds"<<"\n";
     }
+    std::cout<<"Press ENTER to close program and corresponding plot windows."<<std::endl;
+    std::getchar();
 }
