@@ -16,7 +16,7 @@ cd ..
 ## Running the Program
 To run the code
 ```bash
-./bin/main ./Path/to/your/jsonfile
+./bin/main ./Path/to/your/file.json
 ```
 Alternatively, when no arguments are provided,
 ```bash
