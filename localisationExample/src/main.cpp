@@ -10,11 +10,45 @@
 #include <fstream>
 
 
-int main() {
-    // Load the Configuration file
-    std::string filename = "params.json";
-    std::ifstream jsonFile(filename);
-    nlohmann::json programConfig = nlohmann::json::parse(jsonFile);
+int main(int argc, char *argv[]) {
+    // Load the intended config-file
+    std::string filename;
+    if (argc == 1) // No additional arguments provided. Use the default
+    {
+        std::cout<<"No command-line input provided. Using default config-file: ";
+        filename = "params.json";
+        std::cout<<filename<<std::endl;
+    }
+    else // Use the provided config-file
+    {
+        std::cout<<"Using User-provided config-file: ";
+        filename = argv[1];
+        std::cout<<filename<<std::endl;
+    }
+    // Parse the config-file which is in json format
+    nlohmann::json programConfig;
+    try
+    {
+        std::ifstream jsonFile(filename);
+        programConfig = nlohmann::json::parse(jsonFile);
+    }
+    catch(nlohmann::detail::parse_error& e)
+    {
+        std::cout<<"\n";
+        if(e.byte>1) // Error not at the start of the file
+        {
+            std::cout<<"Error while parsing JSON-file. Are you providing a valid file?"<<std::endl;
+        }
+        else
+        {
+            std::cout<<"Error while parsing JSON-file. Does this file exsist, or is it empty?"<<std::endl;
+            std::cout<<"Are your sure the JSON-file path is specified relative to this terminal window?"<<std::endl;
+            std::cout<<"\n";
+        }
+        std::cout<<"Refer to the error below to find your issue: "<<std::endl;
+        std::cout<<e.what()<<std::endl;
+        return EXIT_FAILURE;
+    }
     // Initialise the Simulation Enviroment
     // ------
     Pose RobotPose = programConfig["Robot"]["InitialPosition"];        
@@ -98,4 +132,6 @@ int main() {
         std::cout<<"Timestep "<<i<<" Complete. Time Taken: "<<
         std::chrono::duration_cast<std::chrono::microseconds>(end - start).count()/1000.0 << " milliseconds"<<"\n";
     }
+    std::cout<<"Press ENTER to close program and corresponding plot windows."<<std::endl;
+    std::getchar();
 }

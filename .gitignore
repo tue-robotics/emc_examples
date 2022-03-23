@@ -33,6 +33,7 @@
 
 # Build Folder
 */build/*
+*/bin/*
 */.vscode/*
 
 # Images
