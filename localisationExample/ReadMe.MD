@@ -26,7 +26,7 @@ this is equivalent to:
 ```bash
 ./bin/main ./params.json
 ```
-## Example working 
+## Example  
 
 ![](https://raw.githubusercontent.com/tue-robotics/emc-examples/master/localisationExample/doc/exampleParticleFilter.gif)
 
