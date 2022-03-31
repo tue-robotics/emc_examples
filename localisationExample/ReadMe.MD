@@ -3,7 +3,7 @@
 Make sure the prerequisites are installed
 ```bash
 sudo apt-get update
-sudo apt-get install python3-matplotlib python3-numpy
+sudo apt-get install python3-dev python3-matplotlib python3-numpy
 ```
 To build the code
 ```bash
