@@ -5,7 +5,8 @@ find_package(OpenCV 4 REQUIRED)
 
 add_executable( main src/main.cpp
                 src/featureExtraction.cpp
-                src/featureExtraction.h )
+                src/featureExtraction.h 
+                src/config.h )
 
 target_link_libraries(main emc-framework)
 target_link_libraries(main ${OpenCV_LIBS})
