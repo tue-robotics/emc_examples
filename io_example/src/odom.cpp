@@ -1,9 +1,6 @@
 /**
  * Example code for the MRC (formerly EMC) course.
- * Pico (the robot) starts driving forward using its drive forward skill.
- * In the meantime, it continuously monitors its distance to the wall using its detection skill. 
- * When a wall is detected, Pico can not drive forward anymore and needs to turn. 
- * The state switches and another set of skills is called: drive backward and rotate.
+ * Prints the measurements of the odometry to screen
  */
 
 #include <emc/io.h>
