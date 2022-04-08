@@ -1,6 +1,8 @@
 #include "driveControl.h"
 #include "config.h"
 
+#include <math.h>
+
 void DriveControl::driveForward(double xSpeed)
 {
     inOut->readOdometryData(odom);
@@ -14,7 +16,9 @@ double DriveControl::driveBackward(double xSpeed)
     
     inOut->sendBaseReference(-xSpeed, 0.0, 0.0);
     
-    double distBackward = odomUpdate.x - odom.x;
+    // coordinate transformation to get distance in the negative x direction relative to the robot.
+    double distBackward = - (cos(odom.a)*(odomUpdate.x - odom.x)
+                           + sin(odom.a)*(odomUpdate.y - odom.y));
     odom = odomUpdate;
     
     return distBackward;
