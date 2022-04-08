@@ -33,3 +33,7 @@ pico-teleop
 
 #### Troubleshooting  ####
 If you encounter an error "Could not find a configuation file for package "OpenCV" that is compatible with the requested version ...", please open the *CMakeLists.txt* file, and check whether the version # in **find_package(OpenCV # REQUIRED)** coincides with the OpenCV version installed on your machine.
+You can find the OpenCV version installed by typing the following command in your terminal:
+```bash
+python3 -c "import cv2; print(cv2.__version__)"
+```
