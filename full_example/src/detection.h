@@ -3,6 +3,7 @@
 
 #include <emc/io.h>
 #include <emc/data.h>
+#include <emc/bumper.h>
 
 class Detection
 {
@@ -19,9 +20,13 @@ public:
     }
 	
     emc::LaserData laser;
+    emc::BumperData back_bumper;
 
     // Method to obtain the sensor data
     bool getSensorData();
+
+    // Method to check if the robot has touched any objects
+    bool backBumperTouched();
 
     // Method to check if any wall is in the neighbourhood of the robot
     bool wallDetected(double minDistance);

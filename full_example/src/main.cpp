@@ -38,6 +38,8 @@ int main(int argc, char *argv[])
     double rotatedAngle = 0.0;
     double distanceBackwards = 0.0;
 
+    std::cout << "Initialisation complete: Starting main loop" << std::endl;
+
     /* Main Execution Loop, 
      * this loop keeps running until io.ok returns false, i.e. when a robot error occurs. */
     while(io.ok())
@@ -54,6 +56,7 @@ int main(int argc, char *argv[])
                 // case drive_forward: the robot drives forward until a wall is detected
                 case drive_forward:
                     if(detection.wallDetected(*(worldModel.getMinimumDistance()))) {
+                        std::cout << "Detected a wall! Driving backwards" << std::endl;
                         // If a wall is detected, stop before we hit the wall 
                         picoDrive.stop();
                         // Reset rotatedAngle to 0
@@ -73,7 +76,15 @@ int main(int argc, char *argv[])
                     distanceBackwards += picoDrive.driveBackward(FORWARD_SPEED);
                     // If we have driven backwards far enough,
                     if(fabs(distanceBackwards) >= DIST_BACKWARDS) {
+                        std::cout << "That's far enough, lets go another way" << std::endl;
                         // we start rotating.
+                        state = rotate;
+                    }
+                    else if(detection.backBumperTouched()) {
+                        std::cout << "Oops, pardon me!" << std::endl;
+                        // If an obstacle is detected, stop
+                        picoDrive.stop();
+                        // Switch state to move backwards
                         state = rotate;
                     }
                     break;
@@ -84,12 +95,14 @@ int main(int argc, char *argv[])
                     rotatedAngle += picoDrive.rotate(ROTATE_SPEED);	
                     // If we have rotated enough,
                     if(fabs(rotatedAngle) >= ROTATED_ANGLE) {
+                        std::cout << "Full speed ahead!" << std::endl;
                         // start driving again.
                         state = drive_forward;
                     }
                     break;
 
                 default:
+                    std::cout << "Unknown behaviour! let's stop!" << std::endl;
                     picoDrive.stop();
                     break;
             }

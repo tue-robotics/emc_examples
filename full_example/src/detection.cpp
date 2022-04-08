@@ -3,11 +3,19 @@
 
 bool Detection::getSensorData() 
 {
+    bool newdata = false;
     if(inOut->readLaserData(laser)) {
-        return true;
-    } else {
-        return false;
+        newdata = true;
     }
+    if(inOut->readBackBumperData(back_bumper)) {
+        newdata = true;
+    }
+    return newdata;
+}
+
+bool Detection::backBumperTouched()
+{
+    return back_bumper.contact;
 }
 
 bool Detection::wallDetected(double minDistance)
