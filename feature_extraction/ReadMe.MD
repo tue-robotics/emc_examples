@@ -26,8 +26,10 @@ emc-viz
 ../bin/main
 ```
 
-
 #### (optional) Terminal 5: Manually control the robot  ####
 ```bash
 pico-teleop
 ```
+
+#### Troubleshooting  ####
+If you encounter an error "Could not find a configuation file for package "OpenCV" that is compatible with the requested version ...", please open the *CMakeLists.txt* file, and check whether the version # in **find_package(OpenCV # REQUIRED)** coincides with the OpenCV version installed on your machine.
