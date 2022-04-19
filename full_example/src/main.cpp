@@ -56,6 +56,7 @@ int main(int argc, char *argv[])
                 // case drive_forward: the robot drives forward until a wall is detected
                 case drive_forward:
                     if(detection.wallDetected(*(worldModel.getMinimumDistance()))) {
+                        io.speak("This is too close for me");
                         std::cout << "Detected a wall! Driving backwards" << std::endl;
                         // If a wall is detected, stop before we hit the wall 
                         picoDrive.stop();
@@ -81,7 +82,8 @@ int main(int argc, char *argv[])
                         state = rotate;
                     }
                     else if(detection.backBumperTouched()) {
-                        std::cout << "Oops, pardon me!" << std::endl;
+                        io.speak("Oops pardon me");
+                        std::cout << "rear bumper detected obstacle" << std::endl;
                         // If an obstacle is detected, stop
                         picoDrive.stop();
                         // Switch state to move backwards
@@ -109,6 +111,7 @@ int main(int argc, char *argv[])
         } 
         else 
         {
+            io.speak("Goodbye");
             picoDrive.stop();
         }
 
