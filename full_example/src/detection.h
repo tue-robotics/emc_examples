@@ -25,7 +25,8 @@ public:
     emc::BumperData back_bumper;
 
     // Method to obtain the sensor data
-    bool getSensorData();
+    bool getLaserData();
+    bool getBackBumperData();
 
     // Method to check if the robot has touched any objects
     bool backBumperTouched();
