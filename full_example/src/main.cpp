@@ -111,6 +111,7 @@ int main(int argc, char *argv[])
         } 
         else 
         {
+            std::cout << "Communication error!" << std::endl;
             picoDrive.stop();
         }
 
