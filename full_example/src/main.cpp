@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
     state_t state = drive_forward;
     double rotatedAngle = 0.0;
     double distanceBackwards = 0.0;
-    double duration_no_bumper = 0.0;
+    double durationNoBumper = 0.0;
 
     std::cout << "Initialisation complete: Starting main loop" << std::endl;
 
@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
             // Get the sensor data from the LRF
             if(detection.getBackBumperData())
             {
-                duration_no_bumper = 0.0;
+                durationNoBumper = 0.0;
                 // Start driving backwards, add distance driven to counter distanceBackwards
                 distanceBackwards += picoDrive.driveBackward(BACKWARD_SPEED);
                 // If we have driven backwards far enough,
@@ -106,10 +106,10 @@ int main(int argc, char *argv[])
             else
             {
                 // the bumper works at a rate lower than the execution rate. So we must keep track over multiple cycles
-                duration_no_bumper += EXECUTION_RATE;
-                if (duration_no_bumper > BUMPER_TIMEOUT)
+                durationNoBumper += 1/EXECUTION_RATE;
+                if (durationNoBumper > BUMPER_TIMEOUT)
                 {
-                    std::cout << "No bumper data for " << duration_no_bumper << " seconds! Lets stop and wait" << std::endl;
+                    std::cout << "No bumper data for " << durationNoBumper << " seconds! Lets stop and wait" << std::endl;
                     picoDrive.stop();
                 }
             }
