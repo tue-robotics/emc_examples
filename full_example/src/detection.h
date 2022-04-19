@@ -15,6 +15,8 @@ public:
     {
         inOut = io;
         laser = emc::LaserData();
+        back_bumper = emc::BumperData();
+        back_bumper.contact = false; // initialise to false
 
         return;
     }
