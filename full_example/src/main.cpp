@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
                 // case drive_backward: the robot drives backward
                 case drive_backward:
                     // Start driving backwards, add distance driven to counter distanceBackwards
-                    distanceBackwards += picoDrive.driveBackward(FORWARD_SPEED);
+                    distanceBackwards += picoDrive.driveBackward(BACKWARD_SPEED);
                     // If we have driven backwards far enough,
                     if(fabs(distanceBackwards) >= DIST_BACKWARDS) {
                         std::cout << "That's far enough, lets go another way" << std::endl;
@@ -111,7 +111,6 @@ int main(int argc, char *argv[])
         } 
         else 
         {
-            io.speak("Goodbye");
             picoDrive.stop();
         }
 

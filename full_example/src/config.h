@@ -2,6 +2,7 @@
 
 #define FORWARD_SPEED     0.5        // [m/s]
 #define ROTATE_SPEED      -1.0       // [rad/s]
+#define BACKWARD_SPEED    0.2        // [m/s]
 #define DIST_BACKWARDS    0.1        // [m]
 #define ROTATED_ANGLE     0.5 * M_PI // [rad]
 
