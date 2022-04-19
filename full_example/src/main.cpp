@@ -37,6 +37,7 @@ int main(int argc, char *argv[])
     state_t state = drive_forward;
     double rotatedAngle = 0.0;
     double distanceBackwards = 0.0;
+    double duration_no_bumper = 0.0;
 
     std::cout << "Initialisation complete: Starting main loop" << std::endl;
 
@@ -101,8 +102,13 @@ int main(int argc, char *argv[])
             }
             else
             {
-                std::cout << "No bumper data! Lets stop and wait" << std::endl;
-                picoDrive.stop();
+                // the bumper works at a rate lower than the execution rate. So we must keep track over multiple cycles
+                duration_no_bumper += EXECUTION_RATE;
+                if (duration_no_bumper > BUMPER_TIMEOUT)
+                {
+                    std::cout << "No bumper data! Lets stop and wait" << std::endl;
+                    picoDrive.stop();
+                }
             }
             break;
 
