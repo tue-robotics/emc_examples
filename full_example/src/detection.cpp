@@ -1,16 +1,14 @@
 #include "detection.h"
 #include "config.h"
 
-bool Detection::getSensorData() 
+bool Detection::getLaserData()
 {
-    bool newdata = false;
-    if(inOut->readLaserData(laser)) {
-        newdata = true;
-    }
-    if(inOut->readBackBumperData(back_bumper)) {
-        newdata = true;
-    }
-    return newdata;
+    return inOut->readLaserData(laser);
+}
+
+bool Detection::getBackBumperData()
+{
+    return inOut->readBackBumperData(back_bumper);
 }
 
 bool Detection::backBumperTouched()
