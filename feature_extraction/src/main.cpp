@@ -1,6 +1,6 @@
 /**
  * Example showing a split and merge algorithm for feature extraction.
- * Use pico-teleop to drive around the map, and see it at work.
+ * Use hero-teleop to drive around the map, and see it at work.
  * Play around with the variables in the config file, and try to understand what happens.
  */
 
