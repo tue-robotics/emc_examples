@@ -13,12 +13,12 @@ roscore
 
 #### Terminal 3: start the simulator ####
 ```bash
-emc-sim
+mrc-sim
 ```
 
 #### (optional) Terminal 4: visualize the sensor data  ####
 ```bash
-emc-viz
+mrc-viz
 ```
 
 #### Terminal 1: run the program ####  
@@ -28,7 +28,7 @@ emc-viz
 
 #### (optional) Terminal 5: Manually control the robot  ####
 ```bash
-pico-teleop
+hero-teleop
 ```
 
 #### Troubleshooting  ####
