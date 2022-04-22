@@ -8,10 +8,10 @@ Terminal 2 -- start a roscore:
 roscore
 
 Terminal 3 -- start the simulator:
-emc-sim
+mrc-sim
 
 Terminal 4 -- visualize the sensor data (optional):
-emc-viz
+mrc-viz
 
 Terminal 1 -- run the program:
 ../bin/main
