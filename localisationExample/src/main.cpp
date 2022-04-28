@@ -134,4 +134,6 @@ int main(int argc, char *argv[]) {
     }
     std::cout<<"Press ENTER to close program and corresponding plot windows."<<std::endl;
     std::getchar();
+    // Exit program
+    delete pFilt; // Make sure to free our memory allocated by new
 }
