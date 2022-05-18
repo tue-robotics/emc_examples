@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
                     // Reset distanceBackwards to 0
                     distanceBackwards = 0.0;
                     // Reset durationNoBumper to 0
-                    distanceBackwards = 0.0;
+                    durationNoBumper = 0.0;
                     // Switch state to move backwards
                     state = drive_backward;
                 } else {
@@ -83,35 +83,13 @@ int main(int argc, char *argv[])
             // case drive_backward: the robot drives backward
         case drive_backward:
             // Get the sensor data from the LRF
-            if(detection.getBackBumperData())
-            {
-                durationNoBumper = 0.0;
-                // Start driving backwards, add distance driven to counter distanceBackwards
-                distanceBackwards += heroDrive.driveBackward(BACKWARD_SPEED);
-                // If we have driven backwards far enough,
-                if(fabs(distanceBackwards) >= DIST_BACKWARDS) {
-                    std::cout << "That's far enough, lets go another way" << std::endl;
-                    // we start rotating.
-                    state = rotate;
-                }
-                else if(detection.backBumperTouched()) {
-                    io.speak("Oops pardon me");
-                    std::cout << "rear bumper detected obstacle" << std::endl;
-                    // If an obstacle is detected, stop
-                    heroDrive.stop();
-                    // Switch state to move backwards
-                    state = rotate;
-                }
-            }
-            else
-            {
-                // the bumper works at a rate lower than the execution rate. So we must keep track over multiple cycles
-                durationNoBumper += 1/EXECUTION_RATE;
-                if (durationNoBumper > BUMPER_TIMEOUT)
-                {
-                    std::cout << "No bumper data for " << durationNoBumper << " seconds! Lets stop and wait" << std::endl;
-                    heroDrive.stop();
-                }
+            // Start driving backwards, add distance driven to counter distanceBackwards
+            distanceBackwards += heroDrive.driveBackward(BACKWARD_SPEED);
+            // If we have driven backwards far enough,
+            if(fabs(distanceBackwards) >= DIST_BACKWARDS) {
+                std::cout << "That's far enough, lets go another way" << std::endl;
+                // we start rotating.
+                state = rotate;
             }
             break;
 
