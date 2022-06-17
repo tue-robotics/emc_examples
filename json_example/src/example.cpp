@@ -45,23 +45,31 @@ int main()
         cabinets.push_back(cabinet);
     }
 
-    for (const auto& dr : doc.at("doors") )
+
+    if (doc.find("doors") != doc.end())
     {
-        Door door;
-        for (const auto& l : dr){
-            door.push_back(Line(l[0], l[1]));
+        for (const auto& dr : doc.at("doors") )
+        {
+            Door door;
+            for (const auto& l : dr){
+                door.push_back(Line(l[0], l[1]));
+            }
+            doors.push_back(door);
         }
-        doors.push_back(door);
     }
 
-     for (const auto& sa : doc.at("start_area") )
+    if (doc.find("start_area") != doc.end())
     {
-        Area area;
-        for (const auto& l : sa){
-            area.push_back(Line(l[0], l[1]));
+        for (const auto& sa : doc.at("start_area") )
+        {
+            Area area;
+            for (const auto& l : sa){
+                area.push_back(Line(l[0], l[1]));
+            }
+            startArea.push_back(area);
         }
-        startArea.push_back(area);
     }
+  
 
     // Find the min/max x/y values
     auto compx = [](Point &p1, Point &p2){return p1.x < p2.x;};
