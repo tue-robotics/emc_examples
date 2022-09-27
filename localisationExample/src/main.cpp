@@ -4,9 +4,9 @@
 #include "ParticleFilter.h"
 #include "AdaptiveParticleFilter.h"
 #include "Resampler.h"
+#include "json.hpp"
 
 #include <chrono>
-#include <../include/json.hpp>
 #include <fstream>
 
 
@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
     if (argc == 1) // No additional arguments provided. Use the default
     {
         std::cout<<"No command-line input provided. Using default config-file: ";
-        filename = "params.json";
+        filename = "../params.json";
         std::cout<<filename<<std::endl;
     }
     else // Use the provided config-file
